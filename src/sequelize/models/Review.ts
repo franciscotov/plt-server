@@ -1,7 +1,7 @@
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
-const { DataTypes } = require("sequelize")
-module.exports = (sequelize) => {
+
+import { DataTypes, Sequelize } from "sequelize";
+
+module.exports = (sequelize: Sequelize) => {
   // defino el modelo
   sequelize.define(
     "review",

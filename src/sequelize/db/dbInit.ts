@@ -1,8 +1,8 @@
+import { commonsKeys } from "../../constants";
 const { Sequelize } = require("sequelize");
-const { commonsKeys } = require("../../constants");
 const { DB_USER, DB_PASSWORD, DB_HOST, DATABASE_URL } = process.env;
 
-let sequelize = null;
+let sequelize: any = [];
 
 if (DATABASE_URL) {
   const URLDB = DATABASE_URL;
@@ -26,6 +26,8 @@ if (DATABASE_URL) {
   );
 }
 
-module.exports = {
-  sequelize,
-};
+// module.exports = {
+//   sequelize,
+// };
+
+export { sequelize };

@@ -1,11 +1,19 @@
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
-const crypto = require("crypto");
-const { DataTypes } = require("sequelize");
-const { modelsKeys, commonsKeys } = require("../../constants");
+import { DataTypes, Sequelize, Model, ModelCtor } from "sequelize";
+import crypto  from "crypto";
+import { UserAttributes } from "./interfaces/interfaces";
+import { modelsKeys, commonsKeys, lengthValues } from "../../constants";
 
-module.exports = (sequelize) => {
-  const Users = sequelize.define(
+interface UsersInstance extends Model<UserAttributes>, UserAttributes {
+  // Aquí puedes agregar métodos o propiedades de instancia si es necesario
+}
+
+interface UsersModel extends ModelCtor<UsersInstance> {
+  generateSalt(): string;
+  encryptPassword(plainText: string, salt: string): string;
+}
+
+module.exports = (sequelize: Sequelize) => {
+  const Users = <UsersModel>sequelize.define(
     modelsKeys.users,
     {
       id: {
@@ -14,14 +22,18 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(lengthValues.name),
+        allowNull: false,
+      },
+      lastname: {
+        type: DataTypes.STRING(lengthValues.lastName),
         allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
         get() {
-          return () => this.getDataValue(commonsKeys.password);
+          return () => this.getDataValue(commonsKeys.password as keyof UserAttributes);
         },
       },
       email: {
@@ -33,17 +45,17 @@ module.exports = (sequelize) => {
         },
       },
       role: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(lengthValues.role),
         allowNull: false,
       },
       address: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(lengthValues.adress),
       },
       dni: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(lengthValues.dni),
       },
       phoneNumber: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(lengthValues.phone),
       },
       google: {
         type: DataTypes.BOOLEAN,
@@ -56,22 +68,19 @@ module.exports = (sequelize) => {
       salt: {
         type: DataTypes.STRING,
         get() {
-          return () => this.getDataValue(commonsKeys.salt);
+          return () => this.getDataValue(commonsKeys.salt as keyof UserAttributes);
         },
       },
       newsletter: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      twoFA: {
-        type: DataTypes.BOOLEAN,
-      },
     },
     { timestamps: true }
   );
 
   Users.generateSalt = function () {
-    return crypto.randomBytes(16).toString(commonsKeys.base);
+    return crypto.randomBytes(16).toString('base64');
   };
 
   Users.encryptPassword = function (plainText, salt) {
@@ -79,10 +88,10 @@ module.exports = (sequelize) => {
       .createHash(commonsKeys.hash)
       .update(plainText)
       .update(salt)
-      .digest(commonsKeys.hex);
+      .digest('hex');
   };
 
-  const setSaltAndPassword = (user) => {
+  const setSaltAndPassword = (user: any) => {
     if (user.changed(commonsKeys.password)) {
       user.salt = Users.generateSalt();
       user.password = Users.encryptPassword(user.password(), user.salt());
