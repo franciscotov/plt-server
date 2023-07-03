@@ -5,17 +5,18 @@ import { Campus} from "../db";
 const createCampus = async (campus: CampusAttributes) => {
   const { name, adress, lat, lng } = campus;
   try {
-    let [newGame, created] = await Campus.findOrCreate({
+    let [newCampus, created] = await Campus.findOrCreate({
       where: { name, adress, lat, lng },
       defaults: { name, adress, lat, lng },
     });
     if (!created) {
-      newGame.update({ name, adress, lat, lng });
+      newCampus.update({ name, adress, lat, lng });
     }
+    console.log(newCampus, created, 'newGame, created')
     //
     return {
       __typename: modelsKeys.campus,
-      ...newGame.dataValues,
+      ...newCampus.dataValues,
       detail: "campus created",
     };
   } catch (error) {

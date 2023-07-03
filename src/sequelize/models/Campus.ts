@@ -1,6 +1,5 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import { modelsKeys, lengthValues } from "../../constants";
-const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize: Sequelize) => {
   sequelize.define(

@@ -2,14 +2,18 @@ import { GameAttributes } from "../sequelize/models/interfaces/interfaces";
 import { Game } from "../db";
 
 async function createGame(game: GameAttributes) {
-  const { name, type, date, initHour, endHour } = game;
+  const { name, type, date, initHour, endHour, campusId } = game;
   try {
     let [newGame, created] = await Game.findOrCreate({
-      where: { name, type, date, initHour, endHour },
-      defaults: { name, type, date, initHour, endHour },
+      where: { name, type, date, initHour, endHour, campusId },
+      defaults: { name, type, date, initHour, endHour, campusId },
     });
     if (!created) {
-      newGame.update({ name, type, date, initHour, endHour });
+      return {
+        __typename: "error",
+        name: "error",
+        detail: "Ya existe un juego con los mismos atributos",
+      };
     }
     //
     return {
@@ -21,11 +25,9 @@ async function createGame(game: GameAttributes) {
     return {
       __typename: "error",
       name: "error",
-      detail: "Email already exist o invalid email",
+      detail: "Ocurrio un error al intentar crear el juego",
     };
   }
 }
 
-module.exports = {
-  createGame,
-};
+export { createGame };

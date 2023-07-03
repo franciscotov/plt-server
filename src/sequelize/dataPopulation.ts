@@ -1,6 +1,7 @@
-import { UserBase } from "./models/interfaces/interfaces";
+import { GameAttributes, UserBase } from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
 import { createCampus } from "../services/campusService";
+import { createGame } from "../services/gameService";
 
 const dataPopulation = async () => {
   //   await Category.bulkCreate(MOCK_CATEOGRIES),
@@ -15,6 +16,15 @@ const dataPopulation = async () => {
     google: false,
   };
 
+  const game: GameAttributes = {
+    name: "admin",
+    type: 1,
+    date: 1,
+    initHour: 10,
+    endHour: 11,
+    campusId: 1,
+  };
+
   await createUser(user);
 
   await createCampus({
@@ -24,6 +34,10 @@ const dataPopulation = async () => {
     lng: 15.0,
   });
 
+  const game1 = await createGame(game);
+  const game2 = await createGame(game);
+  console.log(game1, "game1, ");
+  console.log(game2, ", game2");
   // await modifyUser(6,null,null,null,null,null,null,null, null, true);
 
   //Pruebas no debe ir

@@ -19,7 +19,7 @@ export interface UserAttributes extends UserBase {
 }
 
 export interface GameAttributes {
-  id: number;
+  id?: number;
   name: string;
   type: number;
   date: number;
