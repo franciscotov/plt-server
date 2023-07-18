@@ -1,4 +1,8 @@
-import { GameAttributes, UserBase } from "./models/interfaces/interfaces";
+import {
+  CampusAttributes,
+  GameAttributes,
+  UserBase,
+} from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
 import { createCampus } from "../services/campusService";
 import { createGame } from "../services/gameService";
@@ -25,14 +29,16 @@ const dataPopulation = async () => {
     campusId: 1,
   };
 
+  const campus: CampusAttributes = {
+    name: "first place",
+    adress: "Banco Nacion",
+    lat: 14.34,
+    lng: 14.98,
+  };
+
   await createUser(user);
 
-  await createCampus({
-    name: "Campus A",
-    adress: "conesa 4586",
-    lat: 19.222,
-    lng: 15.0,
-  });
+  await createCampus(campus);
 
   const game1 = await createGame(game);
   const game2 = await createGame(game);
