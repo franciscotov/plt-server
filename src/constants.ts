@@ -26,4 +26,5 @@ export const lengthValues = {
   role: 50,
   dni: 50,
   phone: 50,
+  day: 20,
 };

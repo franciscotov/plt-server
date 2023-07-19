@@ -1,3 +1,5 @@
+import { ENUM } from "sequelize";
+
 export interface UserBase {
   name: string;
   lastname: string;
@@ -22,9 +24,10 @@ export interface GameAttributes {
   id?: number;
   name: string;
   type: number;
-  date: number;
   initHour: number;
   endHour: number;
+  day: Day;
+  date?: number;
   campusId?: number;
 }
 
@@ -34,4 +37,14 @@ export interface CampusAttributes {
   adress: string;
   lat: number;
   lng: number;
+}
+
+export enum Day {
+  Lunes = "lunes",
+  Martes = "martes",
+  Miercoles = "miercoles",
+  Jueves = "jueves",
+  Viernes = "viernes",
+  Sabado = "sabado",
+  domingo = "domingo",
 }

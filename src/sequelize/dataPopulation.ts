@@ -1,5 +1,7 @@
+import { Request, Response } from "express";
 import {
   CampusAttributes,
+  Day,
   GameAttributes,
   UserBase,
 } from "./models/interfaces/interfaces";
@@ -27,6 +29,7 @@ const dataPopulation = async () => {
     initHour: 10,
     endHour: 11,
     campusId: 1,
+    day: Day.Lunes,
   };
 
   const campus: CampusAttributes = {
@@ -36,14 +39,17 @@ const dataPopulation = async () => {
     lng: 14.98,
   };
 
+  // const res = new Response();
+  // const req = new Request(game);
+
   await createUser(user);
 
   await createCampus(campus);
 
-  const game1 = await createGame(game);
-  const game2 = await createGame(game);
-  console.log(game1, "game1, ");
-  console.log(game2, ", game2");
+  // const game1 = await createGame({ body: game }, {});
+  // const game2 = await createGame(game, res);
+  // console.log(game1, "game1, ");
+  // console.log(game2, ", game2");
   // await modifyUser(6,null,null,null,null,null,null,null, null, true);
 
   //Pruebas no debe ir

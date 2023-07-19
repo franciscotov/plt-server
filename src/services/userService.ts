@@ -257,7 +257,6 @@ async function loginUser(req: Request, res: Response) {
   });
 
   if (!user) {
-    console.log('erorrr')
     return res.status(400).send({
       __typename: "error",
       name: "The user doesn't exists",
@@ -265,10 +264,8 @@ async function loginUser(req: Request, res: Response) {
     });
   }
   if (user) {
-    console.log('existe')
     const hashed = Users.encryptPassword(password, user.salt());
     if (hashed === user.password()) {
-      console.log('todo ok')
       const token = jwt.sign(
         {
           id: user.id,
@@ -276,15 +273,13 @@ async function loginUser(req: Request, res: Response) {
         },
         "secret",
         { expiresIn: 60 * 60 }
-      ); //60*60 = 3600 seg = 1 hour
+      );
       return res.status(200).send({
-        __typename: "user",
         id: user.id,
         name: user.name,
         email: user.email,
         token: token,
         role: user.role,
-        twoFA: user.twoFA,
       });
     } else {
       return res.status(400).send({
