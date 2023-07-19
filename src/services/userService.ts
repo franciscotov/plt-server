@@ -1,8 +1,9 @@
+import { Request, Response } from "express";
 import {
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
-import { Users} from "../db";
+import { Users } from "../db";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -240,23 +241,34 @@ async function resetPassword(id: number) {
   }
 }
 
-async function loginUser(email: string, password: string) {
-  //
+// async function loginUser(email: string, password: string) {
+async function loginUser(req: Request, res: Response) {
+  const { email, password } = req.headers;
+  // const headers = {
+  //   email: req.headers.email,
+  //   password: req.headers.password,
+  //   captcha: req.headers.captcha,
+  //   firebaseToken: req.headers.firebasetoken,
+  // };
   const user = await Users.findOne({
     where: {
       email: email,
     },
   });
+
   if (!user) {
-    return {
+    console.log('erorrr')
+    return res.status(400).send({
       __typename: "error",
       name: "The user doesn't exists",
       detail: "The user doesn't exists",
-    };
+    });
   }
   if (user) {
+    console.log('existe')
     const hashed = Users.encryptPassword(password, user.salt());
     if (hashed === user.password()) {
+      console.log('todo ok')
       const token = jwt.sign(
         {
           id: user.id,
@@ -265,7 +277,7 @@ async function loginUser(email: string, password: string) {
         "secret",
         { expiresIn: 60 * 60 }
       ); //60*60 = 3600 seg = 1 hour
-      return {
+      return res.status(200).send({
         __typename: "user",
         id: user.id,
         name: user.name,
@@ -273,13 +285,13 @@ async function loginUser(email: string, password: string) {
         token: token,
         role: user.role,
         twoFA: user.twoFA,
-      };
+      });
     } else {
-      return {
+      return res.status(400).send({
         __typename: "error",
         name: "invalid password",
         detail: "invalid password",
-      };
+      });
     }
   }
 }

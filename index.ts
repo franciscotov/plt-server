@@ -7,6 +7,6 @@ conn.sync({ force: true }).then(async () => {
   await dataPopulation();
 
   server.listen(process.env.PORT || 3001, () => {
-    console.log("Iniciado!");
+    console.log("Iniciado!", process.env.PORT || 3001);
   });
 });
