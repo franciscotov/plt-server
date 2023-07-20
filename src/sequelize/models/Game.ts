@@ -15,12 +15,7 @@ module.exports = (sequelize: Sequelize) => {
         unique: false,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.INTEGER,
-        unique: false,
-        allowNull: false,
-      },
-      date: {
+      playersQuantity: {
         type: DataTypes.INTEGER,
         unique: false,
         allowNull: false,

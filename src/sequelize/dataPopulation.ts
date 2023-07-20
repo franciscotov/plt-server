@@ -24,8 +24,7 @@ const dataPopulation = async () => {
 
   const game: GameAttributes = {
     name: "admin",
-    type: 1,
-    date: 1,
+    playersQuantity: 1,
     initHour: 10,
     endHour: 11,
     campusId: 1,

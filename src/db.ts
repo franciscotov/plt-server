@@ -40,18 +40,17 @@ Game.hasMany(Player);
 Player.belongsTo(Game);
 
 Game.beforeCreate(async (game: GameAttributes) => {
-  const { campusId, date, initHour } = game;
+  const { campusId, initHour, playersQuantity } = game;
 
   // Verifica si existe otro juego en el mismo campus en la misma fecha y hora
   const existingGame = await Game.findOne({
     where: {
       campusId,
-      date,
       initHour,
+      playersQuantity,
     },
     raw: true,
   });
-
   if (existingGame) {
     throw new Error(
       "No se puede crear un juego en el mismo campus en la misma fecha y hora."
@@ -61,14 +60,14 @@ Game.beforeCreate(async (game: GameAttributes) => {
 
 // Define el hook "beforeUpdate" para verificar la restricción
 Game.beforeUpdate(async (game: GameAttributes) => {
-  const { campusId, date, initHour } = game;
+  const { campusId, initHour, playersQuantity } = game;
 
   // Verifica si existe otro juego en el mismo campus en la misma fecha y hora
   const existingGame = await Game.findOne({
     where: {
       campusId,
-      date,
       initHour,
+      playersQuantity,
     },
     raw: true,
   });
@@ -83,4 +82,4 @@ Game.beforeUpdate(async (game: GameAttributes) => {
 // const models: any = [...sequelize.models];
 const conn = sequelize;
 
-export { Users, Player, Game, Campus , conn };
+export { Users, Player, Game, Campus, conn };

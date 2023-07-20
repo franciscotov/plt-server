@@ -23,11 +23,10 @@ export interface UserAttributes extends UserBase {
 export interface GameAttributes {
   id?: number;
   name: string;
-  type: number;
+  playersQuantity: number;
   initHour: number;
   endHour: number;
   day: Day;
-  date?: number;
   campusId?: number;
 }
 
