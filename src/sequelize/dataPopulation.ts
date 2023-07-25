@@ -33,7 +33,7 @@ const dataPopulation = async () => {
 
   const campus: CampusAttributes = {
     name: "first place",
-    adress: "Banco Nacion",
+    address: "Banco Nacion",
     lat: 14.34,
     lng: 14.98,
   };
@@ -43,7 +43,7 @@ const dataPopulation = async () => {
 
   await createUser(user);
 
-  await createCampus(campus);
+  // await createCampus(campus);
 
   // const game1 = await createGame({ body: game }, {});
   // const game2 = await createGame(game, res);

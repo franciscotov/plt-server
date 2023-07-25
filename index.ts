@@ -3,7 +3,7 @@ import { conn } from "./src/db";
 import { dataPopulation } from "./src/sequelize/dataPopulation";
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(async () => {
+conn.sync({ force: false }).then(async () => {
   await dataPopulation();
 
   server.listen(process.env.PORT || 3001, () => {

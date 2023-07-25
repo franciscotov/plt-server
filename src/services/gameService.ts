@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { GameAttributes } from "../sequelize/models/interfaces/interfaces";
 import { Game } from "../db";
 
 async function createGame(req: Request, res: Response) {

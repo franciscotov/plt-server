@@ -33,7 +33,7 @@ export interface GameAttributes {
 export interface CampusAttributes {
   id?: number;
   name: string;
-  adress: string;
+  address: string;
   lat: number;
   lng: number;
 }

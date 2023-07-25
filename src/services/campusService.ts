@@ -1,30 +1,35 @@
-import { CampusAttributes } from "../sequelize/models/interfaces/interfaces";
+import { Request, Response } from "express";
 import { modelsKeys } from "../constants";
 import { Campus} from "../db";
 
-const createCampus = async (campus: CampusAttributes) => {
-  const { name, adress, lat, lng } = campus;
+const createCampus = async (req: Request, res: Response) => {
+  const { name, address, lat, lng } = req.body;
   try {
     let [newCampus, created] = await Campus.findOrCreate({
-      where: { name, adress, lat, lng },
-      defaults: { name, adress, lat, lng },
+      where: { name, address, lat, lng },
+      defaults: { name, address, lat, lng },
     });
+
     if (!created) {
-      newCampus.update({ name, adress, lat, lng });
+      return res.status(400).send({
+        __typename: "error",
+        name: "error",
+        detail: "Campus already exist",
+      });
     }
-    console.log(newCampus, created, 'newGame, created')
+
     //
-    return {
+    return res.status(200).send({
       __typename: modelsKeys.campus,
       ...newCampus.dataValues,
       detail: "campus created",
-    };
+    });
   } catch (error) {
-    return {
+    return res.status(400).send({
       __typename: "error",
       name: "error",
       detail: "Campus already exist o invalid email",
-    };
+    });
   }
 };
 

@@ -7,18 +7,6 @@ import routesRegister from "./sequelize/routes/routesRegister";
 const server = express();
 
 let whitelist = [
-  "https://dev.proveedores.tutenlabs.dev",
-  "https://qa.proveedores.tutenlabs.dev",
-  "https://uat.proveedores.tutenlabs.dev",
-  "https://proveedores.labs.tutenlabs.dev",
-  "https://proveedores.learn.tutenlabs.dev",
-  "https://proveedores.tutenlabs.com",
-  "https://dev.pro.tutenlabs.dev",
-  "https://qa.pro.tutenlabs.dev",
-  "https://uat.pro.tutenlabs.dev",
-  "https://pro.labs.tutenlabs.com",
-  "https://pro.learn.tutenlabs.com",
-  "https://pro.tutenlabs.com",
   "localhost",
   "localhost:3000",
   "localhost:4200",

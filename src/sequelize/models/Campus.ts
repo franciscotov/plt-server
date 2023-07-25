@@ -15,7 +15,7 @@ module.exports = (sequelize: Sequelize) => {
         unique: true,
         allowNull: false,
       },
-      adress: {
+      address: {
         type: DataTypes.STRING(lengthValues.adress),
         unique: false,
         allowNull: false,
