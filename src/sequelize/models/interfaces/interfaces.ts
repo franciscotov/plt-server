@@ -38,6 +38,12 @@ export interface CampusAttributes {
   lng: number;
 }
 
+export interface DaysAttributes {
+  id?: number;
+  value: string;
+  label: string;
+}
+
 export enum Day {
   Lunes = "lunes",
   Martes = "martes",
@@ -45,5 +51,5 @@ export enum Day {
   Jueves = "jueves",
   Viernes = "viernes",
   Sabado = "sabado",
-  domingo = "domingo",
+  Domingo = "domingo",
 }

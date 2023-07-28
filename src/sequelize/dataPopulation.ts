@@ -2,17 +2,14 @@ import { Request, Response } from "express";
 import {
   CampusAttributes,
   Day,
+  DaysAttributes,
   GameAttributes,
   UserBase,
 } from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
-import { createCampus } from "../services/campusService";
-import { createGame } from "../services/gameService";
+import { createDay } from "../services/daysService";
 
 const dataPopulation = async () => {
-  //   await Category.bulkCreate(MOCK_CATEOGRIES),
-  //     await Product.bulkCreate(MOCK_PRODUCTS);
-  //   await Promo.bulkCreate(MOCK_PROMOS);
   const user: UserBase = {
     name: "admin",
     lastname: "admin",
@@ -38,10 +35,44 @@ const dataPopulation = async () => {
     lng: 14.98,
   };
 
+  const daysToCreate: DaysAttributes[] = [
+    {
+      label: "Lunes",
+      value: Day.Lunes,
+    },
+    {
+      label: "Martes",
+      value: Day.Martes,
+    },
+    {
+      label: "Miércoles",
+      value: Day.Miercoles,
+    },
+    {
+      label: "Jueves",
+      value: Day.Jueves,
+    },
+    {
+      label: "Viernes",
+      value: Day.Viernes,
+    },
+    {
+      label: "Sabado",
+      value: Day.Sabado,
+    },
+    {
+      label: "Domingo",
+      value: Day.Domingo,
+    },
+  ];
+
   // const res = new Response();
   // const req = new Request(game);
 
   await createUser(user);
+  daysToCreate.forEach(async (day: DaysAttributes) => {
+    await createDay(day);
+  });
 
   // await createCampus(campus);
 

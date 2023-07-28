@@ -20,11 +20,6 @@ module.exports = (sequelize: Sequelize) => {
         unique: false,
         allowNull: false,
       },
-      day: {
-        type: DataTypes.STRING(lengthValues.day),
-        unique: false,
-        allowNull: false,
-      },
       initHour: {
         type: DataTypes.INTEGER,
         unique: false,
