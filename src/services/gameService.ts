@@ -28,4 +28,22 @@ async function createGame(req: Request, res: Response) {
   }
 }
 
-export { createGame };
+const getGames = async (req: Request, res: Response) => {
+  const { offset, limit } = req.query;
+  try {
+    const { count, rows } = await Game.findAndCountAll({
+      where: {},
+      offset: offset,
+      limit: limit || 1000,
+    });
+    return res.status(200).send({ count, rows });
+  } catch (error) {
+    return res.status(400).send({
+      __typename: "error",
+      name: "error",
+      detail: "Cant get the games list",
+    });
+  }
+}
+
+export { createGame , getGames};
