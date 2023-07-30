@@ -3,11 +3,11 @@ import { Game } from "../db";
 
 async function createGame(req: Request, res: Response) {
   // ver si se pueden tomar los datos de error para mapear mejor
-  const { name, playersQuantity, initHour, endHour, campusId, day } = req.body;
+  const { name, playersQuantity, initHour, endHour, campusId } = req.body;
   try {
     let [newGame, created] = await Game.findOrCreate({
-      where: { name, playersQuantity, initHour, endHour, campusId, day },
-      defaults: { name, playersQuantity, initHour, endHour, campusId, day },
+      where: { name, playersQuantity, initHour, endHour, campusId },
+      defaults: { name, playersQuantity, initHour, endHour, campusId },
     });
     if (!created) {
       return res.status(400).send({
