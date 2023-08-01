@@ -35,10 +35,11 @@ const createCampus = async (req: Request, res: Response) => {
 
 const getCampus = async (req: Request, res: Response) => {
   const { offset, limit } = req.query;
+  const offsetNum = Number(offset) * (Number(limit));
   try {
     const { count, rows } = await Campus.findAndCountAll({
       where: {},
-      offset: offset,
+      offset: offsetNum,
       limit: limit || 1000,
     });
     return res.status(200).send({ count, rows });
@@ -51,4 +52,23 @@ const getCampus = async (req: Request, res: Response) => {
   }
 };
 
-export { createCampus, getCampus };
+const updateCampus = async (req: Request, res: Response) => {
+  const { active, id, name, address, lat, lng } = req.body;
+  try {
+    const campus = await Campus.update(
+      { active, name, address, lat, lng },
+      {
+        where: { id: id },
+      }
+    );
+    return res.status(200).send(campus);
+  } catch (error) {
+    return res.status(400).send({
+      __typename: "error",
+      name: "error",
+      detail: "Cant update campus",
+    });
+  }
+};
+
+export { createCampus, getCampus, updateCampus };

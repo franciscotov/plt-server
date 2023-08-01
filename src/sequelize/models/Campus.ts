@@ -34,7 +34,7 @@ module.exports = (sequelize: Sequelize) => {
         type: DataTypes.BOOLEAN,
         unique: false,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: true,
       },
     },
     { timestamps: true }

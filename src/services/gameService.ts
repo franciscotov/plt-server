@@ -30,10 +30,11 @@ async function createGame(req: Request, res: Response) {
 
 const getGames = async (req: Request, res: Response) => {
   const { offset, limit } = req.query;
+  const offsetNum = Number(offset) * (Number(limit));
   try {
     const { count, rows } = await Game.findAndCountAll({
       where: {},
-      offset: offset,
+      offset: offsetNum,
       limit: limit || 1000,
     });
     return res.status(200).send({ count, rows });
@@ -44,6 +45,25 @@ const getGames = async (req: Request, res: Response) => {
       detail: "Cant get the games list",
     });
   }
-}
+};
 
-export { createGame , getGames};
+const updateGame = async (req: Request, res: Response) => {
+  const { active, id, name, playersQuantity, initHour, endHour } = req.body;
+  try {
+    const game = await Game.update(
+      { active, name, playersQuantity, initHour, endHour },
+      {
+        where: { id: id },
+      }
+    );
+    return res.status(200).send(game);
+  } catch (error) {
+    return res.status(400).send({
+      __typename: "error",
+      name: "error",
+      detail: "Cant update game",
+    });
+  }
+};
+
+export { createGame, getGames, updateGame };
