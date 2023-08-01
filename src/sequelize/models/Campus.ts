@@ -30,6 +30,12 @@ module.exports = (sequelize: Sequelize) => {
         unique: false,
         allowNull: false,
       },
+      active: {
+        type: DataTypes.BOOLEAN,
+        unique: false,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     { timestamps: true }
   );
