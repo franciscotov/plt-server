@@ -3,18 +3,18 @@ import crypto  from "crypto";
 import { UserAttributes } from "./interfaces/interfaces";
 import { modelsKeys, commonsKeys, lengthValues } from "../../constants";
 
-interface UsersInstance extends Model<UserAttributes>, UserAttributes {
+ interface UserI extends Model<UserAttributes>, UserAttributes {
   // Aquí puedes agregar métodos o propiedades de instancia si es necesario
 }
 
-interface UsersModel extends ModelCtor<UsersInstance> {
+export interface UsersModel extends ModelCtor<UserI> {
   generateSalt(): string;
   encryptPassword(plainText: string, salt: string): string;
 }
 
 module.exports = (sequelize: Sequelize) => {
   const Users = <UsersModel>sequelize.define(
-    modelsKeys.users,
+    modelsKeys.user,
     {
       id: {
         type: DataTypes.INTEGER,
@@ -43,10 +43,6 @@ module.exports = (sequelize: Sequelize) => {
         validate: {
           isEmail: true,
         },
-      },
-      role: {
-        type: DataTypes.STRING(lengthValues.role),
-        allowNull: false,
       },
       address: {
         type: DataTypes.STRING(lengthValues.adress),

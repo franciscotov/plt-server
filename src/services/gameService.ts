@@ -39,6 +39,7 @@ const getGames = async (req: Request, res: Response) => {
     });
     return res.status(200).send({ count, rows });
   } catch (error) {
+    console.log(error, 'rows')
     return res.status(400).send({
       __typename: "error",
       name: "error",

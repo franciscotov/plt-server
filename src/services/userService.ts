@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
+import { Model } from "sequelize";
 import {
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
-import { Users } from "../db";
+import { User, Role } from "../db";
+import { UsersModel } from "../sequelize/models/User";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -11,7 +13,7 @@ const jwt = require("jsonwebtoken");
 
 async function getAllUsers() {
   try {
-    return await Users.findAll(
+    return await User.findAll(
       { include: [] },
       { attributes: { exclude: ["password"] } }
     );
@@ -22,7 +24,7 @@ async function getAllUsers() {
 
 async function getUserByEmail(email: string) {
   try {
-    return await Users.findOne({ where: { email: email } });
+    return await User.findOne({ where: { email: email } });
   } catch (error: any) {
     throw new Error(error);
   }
@@ -31,24 +33,24 @@ async function getUserByEmail(email: string) {
 async function getUserById(id: number) {
   //@ Lau para usar en boton promote
   try {
-    return await Users.findOne({ where: { id } });
+    return await User.findOne({ where: { id } });
   } catch (error: any) {
     throw new Error(error);
   }
 }
 
 async function createUser(user: UserBase) {
-  const { name, lastname, password, email, role, google } = user;
+  const { name, lastname, password, email, RoleId, google } = user;
   try {
     if (!google) {
-      let [newUser, created] = await Users.findOrCreate({
+      let [newUser, created] = await User.findOrCreate({
         where: { email },
         defaults: {
           name,
           lastname,
           password,
           email,
-          role,
+          RoleId,
           google,
         },
       });
@@ -65,14 +67,14 @@ async function createUser(user: UserBase) {
       };
     } else {
       //
-      const [user, created] = await Users.findOrCreate({
+      const [user, created] = await User.findOrCreate({
         where: { email },
         defaults: {
           name,
           lastname,
           password,
           email,
-          role,
+          RoleId,
           google,
         },
       });
@@ -105,7 +107,7 @@ async function modifyUser(user: UserAttributes) {
     password,
     newPassword,
     email,
-    role,
+    RoleId,
     address,
     dni,
     phoneNumber,
@@ -113,7 +115,7 @@ async function modifyUser(user: UserAttributes) {
   } = user;
   let obj: any = {};
   if (password && newPassword) {
-    const userPassword = await Users.findOne({
+    const userPassword = await User.findOne({
       where: {
         email: email,
       },
@@ -126,7 +128,7 @@ async function modifyUser(user: UserAttributes) {
       };
     }
     if (userPassword) {
-      const hashed = Users.encryptPassword(password, userPassword.salt());
+      const hashed = User.encryptPassword(password, userPassword.salt());
       if (hashed === userPassword.password()) {
         obj.password = newPassword;
       } else if (hashed !== userPassword.password()) {
@@ -141,7 +143,7 @@ async function modifyUser(user: UserAttributes) {
   if (!password && newPassword) obj.password = newPassword;
   if (name) obj.name = name;
   if (email) obj.email = email;
-  if (role) obj.role = role;
+  if (RoleId) obj.role = RoleId;
   if (address) obj.address = address;
   if (dni) obj.dni = dni;
   if (phoneNumber) obj.phoneNumber = phoneNumber;
@@ -149,13 +151,13 @@ async function modifyUser(user: UserAttributes) {
 
   try {
     if (id) {
-      let user = await Users.findOne({ where: { id } });
+      let user = await User.findOne({ where: { id } });
       let newUser = await user.update(obj, {
         attributes: { exclude: ["password", "salt"] },
       });
       return { __typename: "user", ...newUser.dataValues };
     } else if (email && !id) {
-      let user = await Users.findOne({ where: { email } });
+      let user = await User.findOne({ where: { email } });
       let newUser = await user.update(obj, {
         attributes: { exclude: ["password", "salt"] },
       });
@@ -168,7 +170,7 @@ async function modifyUser(user: UserAttributes) {
 
 //---- LOGIN WHIT GOOGLE  ----
 async function loginUserWithGoogle(email: string, tokenId: string) {
-  const user = await Users.findOne({
+  const user = await User.findOne({
     where: {
       email,
     },
@@ -203,7 +205,7 @@ async function loginUserWithGoogle(email: string, tokenId: string) {
 
 async function resetPassword(id: number) {
   try {
-    const user = await Users.findOne({
+    const user = await User.findOne({
       where: {
         id: id,
       },
@@ -244,18 +246,16 @@ async function resetPassword(id: number) {
 // async function loginUser(email: string, password: string) {
 async function loginUser(req: Request, res: Response) {
   const { email, password } = req.headers;
-  // const headers = {
-  //   email: req.headers.email,
-  //   password: req.headers.password,
-  //   captcha: req.headers.captcha,
-  //   firebaseToken: req.headers.firebasetoken,
-  // };
-  const user = await Users.findOne({
+  const user: Model | any = await User.findOne({
     where: {
       email: email,
     },
+    include: [Role],
+    exclude: ['RoleId']
+    // through: {
+    //   attributes: ['id']
+    // }
   });
-
   if (!user) {
     return res.status(400).send({
       __typename: "error",
@@ -264,7 +264,7 @@ async function loginUser(req: Request, res: Response) {
     });
   }
   if (user) {
-    const hashed = Users.encryptPassword(password, user.salt());
+    const hashed = User.encryptPassword(password, user.salt());
     if (hashed === user.password()) {
       const token = jwt.sign(
         {
@@ -279,7 +279,7 @@ async function loginUser(req: Request, res: Response) {
         name: user.name,
         email: user.email,
         token: token,
-        role: user.role,
+        role: user.Role,
       });
     } else {
       return res.status(400).send({
@@ -293,7 +293,7 @@ async function loginUser(req: Request, res: Response) {
 //------ DELETE USER ---------
 async function deleteUser(id: number) {
   try {
-    const userToDelete = await Users.findByPk(id);
+    const userToDelete = await User.findByPk(id);
     await userToDelete.destroy();
 
     return { __typename: "booleanResponse", boolean: true };

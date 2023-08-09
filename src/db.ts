@@ -30,16 +30,17 @@ let capsEntries = entries.map((entry) => [
 sequelize.models = Object.fromEntries(capsEntries);
 
 // Relationate the models
-const { Users, Player, Game, Campus, Days } = sequelize.models;
+const { User, Player, Game, Campus, Days, Role } = sequelize.models;
 
 // Relations
-Users.hasOne(Player, { through: relationKeys.userPlayer });
+// Users.hasOne(Player, { through: relationKeys.userPlayer });
+Role.hasOne(User, { through: relationKeys.userRole });
+User.belongsTo(Role);
+Game.hasOne(Days, { through: relationKeys.gameDays });
+Days.belongsTo(Game);
 Game.hasOne(Campus, { through: relationKeys.gameCampus });
-Game.hasOne(Days, { through: relationKeys.gameCampus });
 Campus.hasMany(Game);
 Game.hasMany(Player);
-// Days.hasMany(Game);
-Player.belongsTo(Game);
 
 Game.beforeCreate(async (game: GameAttributes) => {
   const { campusId, initHour, playersQuantity } = game;
@@ -84,4 +85,4 @@ Game.beforeUpdate(async (game: GameAttributes) => {
 // const models: any = [...sequelize.models];
 const conn = sequelize;
 
-export { Users, Player, Game, Campus, Days, conn };
+export { User, Player, Game, Campus, Days, Role, conn };

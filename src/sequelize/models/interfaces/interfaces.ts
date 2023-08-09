@@ -1,16 +1,16 @@
 import { ENUM } from "sequelize";
 
 export interface UserBase {
+  id?: number;
   name: string;
   lastname: string;
   password: string;
   email: string;
-  role: string;
+  RoleId?: number;
   google: boolean;
 }
 
 export interface UserAttributes extends UserBase {
-  id: number;
   address: boolean;
   dni: string;
   phoneNumber: string;
@@ -40,6 +40,12 @@ export interface CampusAttributes {
 
 export interface DaysAttributes {
   id?: number;
+  value: string;
+  label: string;
+}
+
+export interface RoleI {
+  id: number;
   value: string;
   label: string;
 }
