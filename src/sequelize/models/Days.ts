@@ -8,12 +8,12 @@ module.exports = (sequelize: Sequelize) => {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
       },
       value: {
         type: DataTypes.STRING(lengthValues.valueDay),
         unique: true,
         allowNull: false,
+        primaryKey: true,
       },
       label: {
         type: DataTypes.STRING(lengthValues.labelDay),

@@ -40,7 +40,7 @@ async function getUserById(id: number) {
 }
 
 async function createUser(user: UserBase) {
-  const { name, lastname, password, email, RoleId, google } = user;
+  const { name, lastname, password, email, roleId, google } = user;
   try {
     if (!google) {
       let [newUser, created] = await User.findOrCreate({
@@ -50,7 +50,7 @@ async function createUser(user: UserBase) {
           lastname,
           password,
           email,
-          RoleId,
+          roleId,
           google,
         },
       });
@@ -74,7 +74,7 @@ async function createUser(user: UserBase) {
           lastname,
           password,
           email,
-          RoleId,
+          roleId,
           google,
         },
       });
@@ -107,7 +107,7 @@ async function modifyUser(user: UserAttributes) {
     password,
     newPassword,
     email,
-    RoleId,
+    roleId,
     address,
     dni,
     phoneNumber,
@@ -143,7 +143,7 @@ async function modifyUser(user: UserAttributes) {
   if (!password && newPassword) obj.password = newPassword;
   if (name) obj.name = name;
   if (email) obj.email = email;
-  if (RoleId) obj.role = RoleId;
+  if (roleId) obj.role = roleId;
   if (address) obj.address = address;
   if (dni) obj.dni = dni;
   if (phoneNumber) obj.phoneNumber = phoneNumber;
@@ -251,7 +251,7 @@ async function loginUser(req: Request, res: Response) {
       email: email,
     },
     include: [Role],
-    exclude: ['RoleId']
+    exclude: ['roleId']
     // through: {
     //   attributes: ['id']
     // }
@@ -279,7 +279,7 @@ async function loginUser(req: Request, res: Response) {
         name: user.name,
         email: user.email,
         token: token,
-        role: user.Role,
+        role: user.role,
       });
     } else {
       return res.status(400).send({

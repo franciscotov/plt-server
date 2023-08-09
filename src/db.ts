@@ -36,10 +36,10 @@ const { User, Player, Game, Campus, Days, Role } = sequelize.models;
 // Users.hasOne(Player, { through: relationKeys.userPlayer });
 Role.hasOne(User, { through: relationKeys.userRole });
 User.belongsTo(Role);
-Game.hasOne(Days, { through: relationKeys.gameDays });
-Days.belongsTo(Game);
-Game.hasOne(Campus, { through: relationKeys.gameCampus });
+Days.hasOne(Game, { through: relationKeys.gameDays });
+Game.belongsTo(Days);
 Campus.hasMany(Game);
+Game.belongsTo(Campus);
 Game.hasMany(Player);
 
 Game.beforeCreate(async (game: GameAttributes) => {

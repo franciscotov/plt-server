@@ -1,12 +1,10 @@
-import { ENUM } from "sequelize";
-
 export interface UserBase {
   id?: number;
   name: string;
   lastname: string;
   password: string;
   email: string;
-  RoleId?: number;
+  roleId?: number;
   google: boolean;
 }
 

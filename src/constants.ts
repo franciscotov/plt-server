@@ -1,10 +1,10 @@
 export const modelsKeys = {
-  user: "User",
-  campus: "Campus",
-  game: "Game",
-  player: "Player",
-  days: "Days",
-  role: "Role",
+  user: "user",
+  campus: "campus",
+  game: "game",
+  player: "player",
+  days: "days",
+  role: "role",
 };
 
 export const commonsKeys = {
