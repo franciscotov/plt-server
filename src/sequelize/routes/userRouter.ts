@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { loginUser } from "../../services/userService";
+import { loginUser, loginUserWithGoogle } from "../../services/userService";
 
 const userRouter = Router();
 const email = "";
 // userRouter.post("/login", login);
 userRouter.get("/login", loginUser);
+userRouter.post("/login-google", loginUserWithGoogle);
 // authRouter.put('/login/v2/:email', loginV2);
 // authRouter.post('/request-change-password', requestChangePassword);
 // authRouter.post('/change-password-with-token', changePasswordWithToken);

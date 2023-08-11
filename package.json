@@ -2,6 +2,10 @@
   "name": "plt-server",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=18.16.0",
+    "npm": ">=9.5.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " tsnd -r dotenv/config --respawn --clear index.ts dotenv_config_path=.env"

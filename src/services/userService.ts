@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import { Model } from "sequelize";
+import { Model, where } from "sequelize";
 import {
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
 import { User, Role } from "../db";
-import { UsersModel } from "../sequelize/models/User";
+import { GoogleUser } from "../sequelize/models/types";
+import { getFirstName, getLastName } from "./utils";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -169,38 +170,28 @@ async function modifyUser(user: UserAttributes) {
 }
 
 //---- LOGIN WHIT GOOGLE  ----
-async function loginUserWithGoogle(email: string, tokenId: string) {
-  const user = await User.findOne({
-    where: {
-      email,
+async function loginUserWithGoogle(req: Request, res: Response) {
+  const googleUser: GoogleUser = req.body;
+  const role = await Role.findOne({ where: { id: 2 } });
+  let user: UserBase;
+  const token = jwt.sign(
+    {
+      id: googleUser.email,
+      name: googleUser.displayName,
     },
-  });
-  if (!user) {
-    return {
-      __typename: "error",
-      name: "The user doesn't exists",
-      detail: "The user doesn't exists",
-    };
-  }
-  if (user) {
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email,
-      },
-      "secret",
-      { expiresIn: 60 * 60 }
-    ); //60*60 = 3600 seg = 1 hour
-    return {
-      __typename: "user",
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token: token,
-      role: user.role,
-      twoFA: user.twoFA,
-    };
-  }
+    "secret",
+    { expiresIn: 60 * 60 }
+  );
+  user = {
+    name: getFirstName(googleUser.displayName || ""),
+    lastname: getLastName(googleUser.displayName || ""),
+    token,
+    password: "",
+    email: googleUser.email || "",
+    google: true,
+    role,
+  };
+  return res.status(200).send(user);
 }
 
 async function resetPassword(id: number) {
@@ -243,7 +234,6 @@ async function resetPassword(id: number) {
   }
 }
 
-// async function loginUser(email: string, password: string) {
 async function loginUser(req: Request, res: Response) {
   const { email, password } = req.headers;
   const user: Model | any = await User.findOne({
@@ -251,10 +241,7 @@ async function loginUser(req: Request, res: Response) {
       email: email,
     },
     include: [Role],
-    exclude: ['roleId']
-    // through: {
-    //   attributes: ['id']
-    // }
+    exclude: ["roleId"],
   });
   if (!user) {
     return res.status(400).send({

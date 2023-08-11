@@ -4,8 +4,10 @@ export interface UserBase {
   lastname: string;
   password: string;
   email: string;
-  roleId?: number;
   google: boolean;
+  token?: string;
+  role?: RoleI;
+  roleId?: number;
 }
 
 export interface UserAttributes extends UserBase {

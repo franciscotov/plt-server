@@ -55,17 +55,20 @@ const dataPopulation = async () => {
       );
     }
   } else {
-    const [user2, createdUser] = await User.findOrCreate({
-      where: { id: user.id },
-      defaults: user,
-    });
-    if (!createdUser) {
-      console.log("asgagsgaggsa 3333444");
-      user2.update({
-        password: user.password,
-        google: false,
-        roleId: role1.id,
+    try {
+      const [user2, createdUser] = await User.findOrCreate({
+        where: { id: user.id },
+        defaults: user,
       });
+      if (!createdUser) {
+        user2.update({
+          password: user.password,
+          google: false,
+          roleId: role1.id,
+        });
+      }
+    } catch (e){
+      console.log(e)
     }
   }
 
