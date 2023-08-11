@@ -67,8 +67,8 @@ const dataPopulation = async () => {
           roleId: role1.id,
         });
       }
-    } catch (e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -126,6 +126,10 @@ const dataPopulation = async () => {
   return true;
 };
 
+const createListForWeek = () => {
+  // scripts para crear lista de juegos
+};
+
 // await conn.query(`insert into "product-category" ("productId","categoryId") values (1,1)`)
 
-export { dataPopulation };
+export { dataPopulation, createListForWeek };
