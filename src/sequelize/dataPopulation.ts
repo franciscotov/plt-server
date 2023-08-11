@@ -9,7 +9,8 @@ import {
 } from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
 import { createDay } from "../services/daysService";
-import { Role, User } from "../db";
+import { User } from "./models/User";
+// import { Role, User } from "../db";
 
 const dataPopulation = async () => {
   const role1: RoleI = {
@@ -33,18 +34,19 @@ const dataPopulation = async () => {
     google: false,
   };
 
-  const [, createdRole1] = await Role.findOrCreate({
-    where: { ...role1 },
-    defaults: role1,
-  });
-  const [] = await Role.findOrCreate({
-    where: { ...role2 },
-    defaults: role2,
-  });
-  if (createdRole1) {
+  // const [, createdRole1] = await Role.findOrCreate({
+  //   where: { ...role1 },
+  //   defaults: role1,
+  // });
+  // const [] = await Role.findOrCreate({
+  //   where: { ...role2 },
+  //   defaults: role2,
+  // });
+  // if (createdRole1) {
+    // User.create()
     const [, createdUser] = await User.findOrCreate({
       where: { ...user },
-      defaults: user,
+      defaults: { ...user },
     });
     if (!createdUser) {
       const updateUser = await User.update(
@@ -54,23 +56,23 @@ const dataPopulation = async () => {
         }
       );
     }
-  } else {
-    try {
-      const [user2, createdUser] = await User.findOrCreate({
-        where: { id: user.id },
-        defaults: user,
-      });
-      if (!createdUser) {
-        user2.update({
-          password: user.password,
-          google: false,
-          roleId: role1.id,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // } else {
+  //   try {
+  //     const [user2, createdUser] = await User.findOrCreate({
+  //       where: { id: user.id },
+  //       defaults: { ...user },
+  //     });
+  //     if (!createdUser) {
+  //       user2.update({
+  //         password: user.password,
+  //         google: false,
+  //         roleId: role1.id,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
   const game: GameAttributes = {
     name: "admin",

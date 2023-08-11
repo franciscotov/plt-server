@@ -4,9 +4,11 @@ import {
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
-import { User, Role } from "../db";
+// import { User, Role } from "../db";
 import { GoogleUser } from "../sequelize/models/types";
 import { getFirstName, getLastName } from "./utils";
+import { User } from "../sequelize/models/User";
+import { Role } from "../sequelize/models/Role";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -15,8 +17,8 @@ const jwt = require("jsonwebtoken");
 async function getAllUsers() {
   try {
     return await User.findAll(
-      { include: [] },
-      { attributes: { exclude: ["password"] } }
+      { include: [] }
+      // { attributes: { exclude: ["password"] } }
     );
   } catch (error: any) {
     throw new Error(error);
@@ -128,18 +130,18 @@ async function modifyUser(user: UserAttributes) {
         detail: "The user doesn't exists",
       };
     }
-    if (userPassword) {
-      const hashed = User.encryptPassword(password, userPassword.salt());
-      if (hashed === userPassword.password()) {
-        obj.password = newPassword;
-      } else if (hashed !== userPassword.password()) {
-        return {
-          __typename: "error",
-          name: "error",
-          detail: "Invalid password",
-        };
-      }
-    }
+    // if (userPassword) {
+    //   const hashed = User.encryptPassword(password, userPassword.salt());
+    //   if (hashed === userPassword.password()) {
+    //     obj.password = newPassword;
+    //   } else if (hashed !== userPassword.password()) {
+    //     return {
+    //       __typename: "error",
+    //       name: "error",
+    //       detail: "Invalid password",
+    //     };
+    //   }
+    // }
   }
   if (!password && newPassword) obj.password = newPassword;
   if (name) obj.name = name;
@@ -153,16 +155,16 @@ async function modifyUser(user: UserAttributes) {
   try {
     if (id) {
       let user = await User.findOne({ where: { id } });
-      let newUser = await user.update(obj, {
+      let newUser = await user?.update(obj, {
         attributes: { exclude: ["password", "salt"] },
       });
-      return { __typename: "user", ...newUser.dataValues };
+      return { __typename: "user", ...newUser?.dataValues };
     } else if (email && !id) {
       let user = await User.findOne({ where: { email } });
-      let newUser = await user.update(obj, {
+      let newUser = await user?.update(obj, {
         attributes: { exclude: ["password", "salt"] },
       });
-      return { __typename: "user", ...newUser.dataValues };
+      return { __typename: "user", ...newUser?.dataValues };
     }
   } catch {
     return { __typename: "error", name: "error", detail: "Invalid user" };
@@ -189,7 +191,7 @@ async function loginUserWithGoogle(req: Request, res: Response) {
     password: "",
     email: googleUser.email || "",
     google: true,
-    role,
+    // role: { },
   };
   return res.status(200).send(user);
 }
@@ -203,25 +205,25 @@ async function resetPassword(id: number) {
     });
     const token = jwt.sign(
       {
-        id: user.id,
-        email: user.email,
+        id: user?.id,
+        email: user?.email,
       },
       "resetPassword",
       { expiresIn: 60 * 60 }
     ); //60*60 = 3600 seg = 1 hour
     // let urlReset = `${getCurrentDomainFront()}/reset-password?resetToken=${token}&email=${user.email}`
     let textEmail = `<html>`;
-    textEmail += `<span>Hi ${user.name}</span><br>`;
+    textEmail += `<span>Hi ${user?.name}</span><br>`;
     // textEmail += `<span>If you wanna reset your password click <a href=${urlReset}>here</a></span><br>`;
     textEmail += `<span>Have a good day!</span><br><br>`;
     textEmail += `<span>Codebakery</span>`;
 
     return {
       __typename: "user",
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
+      id: user?.id,
+      name: user?.name,
+      email: user?.email,
+      // role: user?.role,
       token: token,
     };
   } catch (err: any) {
@@ -241,7 +243,7 @@ async function loginUser(req: Request, res: Response) {
       email: email,
     },
     include: [Role],
-    exclude: ["roleId"],
+    // exclude: ["roleId"],
   });
   if (!user) {
     return res.status(400).send({
@@ -251,37 +253,37 @@ async function loginUser(req: Request, res: Response) {
     });
   }
   if (user) {
-    const hashed = User.encryptPassword(password, user.salt());
-    if (hashed === user.password()) {
-      const token = jwt.sign(
-        {
-          id: user.id,
-          name: user.name,
-        },
-        "secret",
-        { expiresIn: 60 * 60 }
-      );
-      return res.status(200).send({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        token: token,
-        role: user.role,
-      });
-    } else {
-      return res.status(400).send({
-        __typename: "error",
-        name: "invalid password",
-        detail: "invalid password",
-      });
-    }
+    // const hashed = User.encryptPassword(password, user.salt());
+    // if (hashed === user.password()) {
+    //   const token = jwt.sign(
+    //     {
+    //       id: user.id,
+    //       name: user.name,
+    //     },
+    //     "secret",
+    //     { expiresIn: 60 * 60 }
+    //   );
+    //   return res.status(200).send({
+    //     id: user.id,
+    //     name: user.name,
+    //     email: user.email,
+    //     token: token,
+    //     role: user.role,
+    //   });
+    // } else {
+    //   return res.status(400).send({
+    //     __typename: "error",
+    //     name: "invalid password",
+    //     detail: "invalid password",
+    //   });
+    // }
   }
 }
 //------ DELETE USER ---------
 async function deleteUser(id: number) {
   try {
     const userToDelete = await User.findByPk(id);
-    await userToDelete.destroy();
+    await userToDelete?.destroy();
 
     return { __typename: "booleanResponse", boolean: true };
   } catch (error) {
