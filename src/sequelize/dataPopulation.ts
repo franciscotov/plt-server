@@ -5,11 +5,12 @@ import {
   DaysAttributes,
   GameAttributes,
   RoleI,
+  UserAttributes,
   UserBase,
 } from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
 import { createDay } from "../services/daysService";
-import { User } from "./models/User";
+import User from "./models/User";
 // import { Role, User } from "../db";
 
 const dataPopulation = async () => {
@@ -24,13 +25,13 @@ const dataPopulation = async () => {
     label: "User",
   };
 
-  const user: UserBase = {
-    id: 1,
+  const user: UserAttributes = {
+    // id: 1,
     name: "admin",
     lastname: "admin",
     password: "123456",
     email: "fran@admin.com",
-    roleId: role1.id,
+    // roleId: role1.id,
     google: false,
   };
 
@@ -43,7 +44,8 @@ const dataPopulation = async () => {
   //   defaults: role2,
   // });
   // if (createdRole1) {
-    // User.create()
+  // User.create()
+  try {
     const [, createdUser] = await User.findOrCreate({
       where: { ...user },
       defaults: { ...user },
@@ -56,6 +58,9 @@ const dataPopulation = async () => {
         }
       );
     }
+  } catch (e) {
+    console.log("eorrr ", e);
+  }
   // } else {
   //   try {
   //     const [user2, createdUser] = await User.findOrCreate({

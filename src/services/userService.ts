@@ -7,8 +7,8 @@ import {
 // import { User, Role } from "../db";
 import { GoogleUser } from "../sequelize/models/types";
 import { getFirstName, getLastName } from "./utils";
-import { User } from "../sequelize/models/User";
-import { Role } from "../sequelize/models/Role";
+import User from "../sequelize/models/User";
+import Role from "../sequelize/models/Role";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -53,7 +53,7 @@ async function createUser(user: UserBase) {
           lastname,
           password,
           email,
-          roleId,
+          // roleId,
           google,
         },
       });
@@ -77,7 +77,7 @@ async function createUser(user: UserBase) {
           lastname,
           password,
           email,
-          roleId,
+          // roleId,
           google,
         },
       });

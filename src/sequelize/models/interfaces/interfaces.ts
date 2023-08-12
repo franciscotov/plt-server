@@ -4,20 +4,24 @@ export interface UserBase {
   lastname: string;
   password: string;
   email: string;
-  google: boolean;
+  google?: boolean;
   token?: string;
   role?: RoleI;
   roleId?: number;
 }
 
 export interface UserAttributes extends UserBase {
-  address: boolean;
-  dni: string;
-  phoneNumber: string;
-  secretOtp: string;
-  salt: string;
-  newsletter: boolean;
+  address?: string;
+  dni?: string;
+  phoneNumber?: string;
   newPassword?: string;
+  google?: boolean;
+  secretOtp?: string;
+  salt?: string;
+  newsletter?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export interface GameAttributes {
