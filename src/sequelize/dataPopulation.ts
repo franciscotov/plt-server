@@ -4,22 +4,23 @@ import {
   Day,
   DaysAttributes,
   GameAttributes,
-  RoleI,
+  RoleAttributes,
   UserAttributes,
   UserBase,
 } from "./models/interfaces/interfaces";
 import { createUser } from "../services/userService";
 import { createDay } from "../services/daysService";
 import User from "./models/User";
+import { CampusInput } from "./models/Campus";
 // import { Role, User } from "../db";
 
 const dataPopulation = async () => {
-  const role1: RoleI = {
+  const role1: RoleAttributes = {
     id: 1,
     value: "admin",
     label: "Administrator",
   };
-  const role2: RoleI = {
+  const role2: RoleAttributes = {
     id: 2,
     value: "user",
     label: "User",
@@ -88,7 +89,7 @@ const dataPopulation = async () => {
     day: Day.Lunes,
   };
 
-  const campus: CampusAttributes = {
+  const campus: CampusInput = {
     name: "first place",
     address: "Banco Nacion",
     lat: 14.34,

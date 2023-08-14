@@ -1,10 +1,11 @@
 export const modelsKeys = {
-  user: "user",
-  campus: "campus",
-  game: "game",
-  player: "player",
+  user: "users",
+  campus: "campuses",
+  game: "games",
+  player: "players",
   days: "days",
-  role: "role",
+  role: "roles",
+  review: "reviews",
 };
 
 export const commonsKeys = {
@@ -18,7 +19,7 @@ export const relationKeys = {
   userPlayer: "user-player",
   userRole: "user-role",
   gameCampus: "game-campus",
-  gameDays: "game-days",
+  gameDays: "value",
 };
 
 export const lengthValues = {
@@ -33,4 +34,6 @@ export const lengthValues = {
   day: 20,
   labelDay: 20,
   valueDay: 20,
+  title: 100,
+  description: 200,
 };

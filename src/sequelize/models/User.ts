@@ -1,11 +1,8 @@
-// import { DataTypes, Sequelize, Model, ModelCtor } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import crypto from "crypto";
 import { UserAttributes } from "./interfaces/interfaces";
-import { commonsKeys, lengthValues } from "../../constants";
-
-import { DataTypes, Model, Optional } from "sequelize";
+import { modelsKeys, commonsKeys, lengthValues, relationKeys } from "../../constants";
 import seqConnection from "../db/dbInit";
-import Role from "./Role";
 
 export interface UserInput extends Optional<UserAttributes, "id"> {}
 export interface UserOuput extends Required<UserAttributes> {}
@@ -29,7 +26,7 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public readonly deletedAt!: Date;
 }
 
-const Users = User.init(
+User.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -93,6 +90,7 @@ const Users = User.init(
     timestamps: true,
     sequelize: seqConnection,
     paranoid: true,
+    tableName: modelsKeys.user
   }
 );
 
@@ -120,8 +118,5 @@ const setSaltAndPassword = (user: User) => {
 
 User.beforeCreate(setSaltAndPassword);
 User.beforeUpdate(setSaltAndPassword);
-
-Role.hasOne(User, { sourceKey: "id" });
-User.belongsTo(Role);
 
 export default User;

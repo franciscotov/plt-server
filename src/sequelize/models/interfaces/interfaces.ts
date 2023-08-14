@@ -6,7 +6,7 @@ export interface UserBase {
   email: string;
   google?: boolean;
   token?: string;
-  role?: RoleI;
+  role?: RoleAttributes;
   roleId?: number;
 }
 
@@ -30,28 +30,56 @@ export interface GameAttributes {
   playersQuantity: number;
   initHour: number;
   endHour: number;
-  day: Day;
+  active?: boolean;
+  day?: Day;
   campusId?: number;
 }
 
 export interface CampusAttributes {
-  id?: number;
+  id: number;
   name: string;
   address: string;
   lat: number;
   lng: number;
+  active?: boolean;
 }
 
 export interface DaysAttributes {
   id?: number;
   value: string;
   label: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
-export interface RoleI {
+export interface RoleAttributes {
   id: number;
   value: string;
   label: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
+
+export interface PlayerAttributes {
+  id: number;
+  name: string;
+  lastname: string;
+  type: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
+
+export interface ReviewAttributes {
+  id: number;
+  title: string;
+  description: string;
+  stars: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export enum Day {
