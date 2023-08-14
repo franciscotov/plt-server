@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { Model, where } from "sequelize";
 import {
+  ReqHeader,
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
 // import { User, Role } from "../db";
 import { GoogleUser } from "../sequelize/models/types";
 import { getFirstName, getLastName } from "./utils";
-import User from "../sequelize/models/User";
+import User, { encryptPassword } from "../sequelize/models/User";
 import Role from "../sequelize/models/Role";
 
 const jwt = require("jsonwebtoken");
@@ -43,7 +44,7 @@ async function getUserById(id: number) {
 }
 
 async function createUser(user: UserBase) {
-  const { name, lastname, password, email, roleId, google } = user;
+  const { name, lastname, password, email, RoleId, google } = user;
   try {
     if (!google) {
       let [newUser, created] = await User.findOrCreate({
@@ -110,7 +111,7 @@ async function modifyUser(user: UserAttributes) {
     password,
     newPassword,
     email,
-    roleId,
+    RoleId,
     address,
     dni,
     phoneNumber,
@@ -146,7 +147,7 @@ async function modifyUser(user: UserAttributes) {
   if (!password && newPassword) obj.password = newPassword;
   if (name) obj.name = name;
   if (email) obj.email = email;
-  if (roleId) obj.role = roleId;
+  if (RoleId) obj.role = RoleId;
   if (address) obj.address = address;
   if (dni) obj.dni = dni;
   if (phoneNumber) obj.phoneNumber = phoneNumber;
@@ -227,7 +228,7 @@ async function resetPassword(id: number) {
       token: token,
     };
   } catch (err: any) {
-    console.log(err.message);
+    console.error(err.message);
     return {
       __typename: "error",
       name: "Not Found",
@@ -237,8 +238,8 @@ async function resetPassword(id: number) {
 }
 
 async function loginUser(req: Request, res: Response) {
-  const { email, password } = req.headers;
-  const user: Model | any = await User.findOne({
+  const { email, password }: ReqHeader = req.headers as ReqHeader;
+  const user: User | null = await User.findOne({
     where: {
       email: email,
     },
@@ -253,30 +254,30 @@ async function loginUser(req: Request, res: Response) {
     });
   }
   if (user) {
-    // const hashed = User.encryptPassword(password, user.salt());
-    // if (hashed === user.password()) {
-    //   const token = jwt.sign(
-    //     {
-    //       id: user.id,
-    //       name: user.name,
-    //     },
-    //     "secret",
-    //     { expiresIn: 60 * 60 }
-    //   );
-    //   return res.status(200).send({
-    //     id: user.id,
-    //     name: user.name,
-    //     email: user.email,
-    //     token: token,
-    //     role: user.role,
-    //   });
-    // } else {
-    //   return res.status(400).send({
-    //     __typename: "error",
-    //     name: "invalid password",
-    //     detail: "invalid password",
-    //   });
-    // }
+    const hashed = encryptPassword(password, user.getDataValue("salt"));
+    if (hashed === user.getDataValue("password")) {
+      const token = jwt.sign(
+        {
+          id: user.id,
+          name: user.name,
+        },
+        "secret",
+        { expiresIn: 60 * 60 }
+      );
+      return res.status(200).send({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        token: token,
+        role: user.get('Role'),
+      });
+    } else {
+      return res.status(400).send({
+        __typename: "error",
+        name: "invalid password",
+        detail: "invalid password",
+      });
+    }
   }
 }
 //------ DELETE USER ---------

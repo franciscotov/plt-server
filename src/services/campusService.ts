@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { modelsKeys } from "../constants";
-import { Campus } from "../db";
+import Campus from "../sequelize/models/Campus";
+import { ReqQuery } from "../sequelize/models/interfaces/interfaces";
 
 const createCampus = async (req: Request, res: Response) => {
   const { name, address, lat, lng } = req.body;
@@ -18,7 +19,6 @@ const createCampus = async (req: Request, res: Response) => {
       });
     }
 
-    //
     return res.status(200).send({
       __typename: modelsKeys.campus,
       ...newCampus.dataValues,
@@ -34,7 +34,7 @@ const createCampus = async (req: Request, res: Response) => {
 };
 
 const getCampus = async (req: Request, res: Response) => {
-  const { offset, limit } = req.query;
+  const { offset, limit }: ReqQuery = req.query as unknown as ReqQuery;
   const offsetNum = Number(offset) * (Number(limit));
   try {
     const { count, rows } = await Campus.findAndCountAll({

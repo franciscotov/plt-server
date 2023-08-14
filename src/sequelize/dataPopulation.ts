@@ -12,6 +12,7 @@ import { createUser } from "../services/userService";
 import { createDay } from "../services/daysService";
 import User from "./models/User";
 import { CampusInput } from "./models/Campus";
+import Role from "./models/Role";
 // import { Role, User } from "../db";
 
 const dataPopulation = async () => {
@@ -32,18 +33,23 @@ const dataPopulation = async () => {
     lastname: "admin",
     password: "123456",
     email: "fran@admin.com",
-    // roleId: role1.id,
+    RoleId: role1.id,
     google: false,
   };
 
-  // const [, createdRole1] = await Role.findOrCreate({
-  //   where: { ...role1 },
-  //   defaults: role1,
-  // });
-  // const [] = await Role.findOrCreate({
-  //   where: { ...role2 },
-  //   defaults: role2,
-  // });
+  try {
+
+    const [] = await Role.findOrCreate({
+      where: { ...role1 },
+      defaults: role1,
+    });
+    const [] = await Role.findOrCreate({
+      where: { ...role2 },
+      defaults: role2,
+    });
+  } catch(e) {
+    console.error(e)
+  }
   // if (createdRole1) {
   // User.create()
   try {
@@ -52,7 +58,7 @@ const dataPopulation = async () => {
       defaults: { ...user },
     });
     if (!createdUser) {
-      const updateUser = await User.update(
+      await User.update(
         { ...user },
         {
           where: { id: user.id },
@@ -60,33 +66,16 @@ const dataPopulation = async () => {
       );
     }
   } catch (e) {
-    console.log("eorrr ", e);
+    console.error("eorrr ", e);
   }
-  // } else {
-  //   try {
-  //     const [user2, createdUser] = await User.findOrCreate({
-  //       where: { id: user.id },
-  //       defaults: { ...user },
-  //     });
-  //     if (!createdUser) {
-  //       user2.update({
-  //         password: user.password,
-  //         google: false,
-  //         roleId: role1.id,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
 
   const game: GameAttributes = {
     name: "admin",
     playersQuantity: 1,
     initHour: 10,
     endHour: 11,
-    campusId: 1,
-    day: Day.Lunes,
+    CampusId: 1,
+    DayValue: Day.Lunes,
   };
 
   const campus: CampusInput = {

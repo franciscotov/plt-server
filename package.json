@@ -29,9 +29,7 @@
     "jsonwebtoken": "^9.0.0",
     "node-schedule": "^2.1.1",
     "pg": "^8.11.1",
-    "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.32.1",
-    "sequelize-typescript": "^2.1.5"
+    "sequelize": "^6.32.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

@@ -1,3 +1,5 @@
+import { IncomingHttpHeaders } from "http";
+
 export interface UserBase {
   id?: number;
   name: string;
@@ -7,7 +9,7 @@ export interface UserBase {
   google?: boolean;
   token?: string;
   role?: RoleAttributes;
-  roleId?: number;
+  RoleId?: number;
 }
 
 export interface UserAttributes extends UserBase {
@@ -31,8 +33,8 @@ export interface GameAttributes {
   initHour: number;
   endHour: number;
   active?: boolean;
-  day?: Day;
-  campusId?: number;
+  DayValue?: DaysAttributes['value'];
+  CampusId?: number;
 }
 
 export interface CampusAttributes {
@@ -80,6 +82,16 @@ export interface ReviewAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+}
+
+export interface ReqHeader extends IncomingHttpHeaders{
+  email: string;
+  password: string;
+}
+
+export interface ReqQuery {
+  offset: number;
+  limit: number;
 }
 
 export enum Day {

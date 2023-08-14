@@ -1,7 +1,12 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import crypto from "crypto";
 import { UserAttributes } from "./interfaces/interfaces";
-import { modelsKeys, commonsKeys, lengthValues, relationKeys } from "../../constants";
+import {
+  modelsKeys,
+  commonsKeys,
+  lengthValues,
+  relationKeys,
+} from "../../constants";
 import seqConnection from "../db/dbInit";
 
 export interface UserInput extends Optional<UserAttributes, "id"> {}
@@ -90,7 +95,7 @@ User.init(
     timestamps: true,
     sequelize: seqConnection,
     paranoid: true,
-    tableName: modelsKeys.user
+    tableName: modelsKeys.user,
   }
 );
 
@@ -98,7 +103,7 @@ const generateSalt = function () {
   return crypto.randomBytes(16).toString("base64");
 };
 
-const encryptPassword = function (plainText: string, salt: string) {
+export const encryptPassword = function (plainText: string, salt: string = "") {
   return crypto
     .createHash(commonsKeys.hash)
     .update(plainText)
