@@ -26,6 +26,7 @@ Review.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
     },
     title: {
       type: DataTypes.STRING(lengthValues.title),

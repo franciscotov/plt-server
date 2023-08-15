@@ -21,6 +21,7 @@ Day.init(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
+      unique: true,
     },
     value: {
       type: DataTypes.STRING(lengthValues.valueDay),

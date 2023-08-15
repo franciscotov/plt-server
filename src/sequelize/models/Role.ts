@@ -26,6 +26,7 @@ Role.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
     },
     value: {
       type: DataTypes.STRING(lengthValues.role),

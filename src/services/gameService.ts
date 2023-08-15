@@ -6,17 +6,17 @@ import { ReqQuery } from "../sequelize/models/interfaces/interfaces";
 
 async function createGame(req: Request, res: Response) {
   // ver si se pueden tomar los datos de error para mapear mejor
-  const { name, playersQuantity, initHour, endHour, CampusId, DayValue } =
+  const { name, totalPlayers, initHour, endHour, campusId, dayValue } =
     req.body;
   try {
     let [newGame, created] = await Game.findOrCreate({
-      where: { name, playersQuantity, initHour, endHour, CampusId, DayValue },
+      where: { name, totalPlayers, initHour, endHour, campusId, dayValue },
       defaults: {
         name,
-        playersQuantity,
+        totalPlayers,
         initHour,
         endHour,
-        CampusId,
+        campusId,
       },
     });
     if (!created) {
@@ -61,10 +61,10 @@ const getGames = async (req: Request, res: Response) => {
 };
 
 const updateGame = async (req: Request, res: Response) => {
-  const { active, id, name, playersQuantity, initHour, endHour } = req.body;
+  const { active, id, name, totalPlayers, initHour, endHour } = req.body;
   try {
     const game = await Game.update(
-      { active, name, playersQuantity, initHour, endHour },
+      { active, name, totalPlayers, initHour, endHour },
       {
         where: { id: id },
       }

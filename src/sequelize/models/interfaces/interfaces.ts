@@ -27,14 +27,41 @@ export interface UserAttributes extends UserBase {
 }
 
 export interface GameAttributes {
-  id?: number;
+  id: number;
   name: string;
+  totalPlayers: number;
+  initHour: number;
+  endHour: number;
+  active?: boolean;
+  dayValue?: DaysAttributes["value"];
+  campusId?: number;
+}
+
+export interface GameTypeAttributes {
+  id: number;
+  value: string;
+  label: string;
+}
+
+export interface ListAttributes {
+  id: number;
+  name: string;
+  totalPlayers: number;
   playersQuantity: number;
   initHour: number;
   endHour: number;
   active?: boolean;
-  DayValue?: DaysAttributes['value'];
-  CampusId?: number;
+  gameId?: number;
+}
+
+export interface PlayerListAttributes {
+  id: number;
+  // name: string;
+  // playersQuantity: number;
+  // initHour: number;
+  // endHour: number;
+  // active?: boolean;
+  // gameId?: number;
 }
 
 export interface CampusAttributes {
@@ -84,7 +111,7 @@ export interface ReviewAttributes {
   deletedAt?: Date;
 }
 
-export interface ReqHeader extends IncomingHttpHeaders{
+export interface ReqHeader extends IncomingHttpHeaders {
   email: string;
   password: string;
 }
@@ -102,4 +129,22 @@ export enum Day {
   Viernes = "viernes",
   Sabado = "sabado",
   Domingo = "domingo",
+}
+
+export enum GameTypeValues {
+  Five = "10",
+  Six = "12",
+  Seven = "14",
+  Eight = "16",
+  Nine = "18",
+  Eleven = "22",
+}
+
+export enum GameTypeLabels {
+  Five = "Fut5",
+  Six = "Fut6",
+  Seven = "Fut7",
+  Eight = "Fut8",
+  Nine = "Fut9",
+  Eleven = "Fut11",
 }

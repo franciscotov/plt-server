@@ -3,7 +3,7 @@ import { connectionDB } from "./src/db";
 import { createListForWeek, dataPopulation } from "./src/sequelize/dataPopulation";
 import schedule from "node-schedule";
 
-connectionDB.sync({ force: false }).then(async () => {
+connectionDB.sync({ force: true }).then(async () => {
   await dataPopulation();
   schedule.scheduleJob("10 * * * * *", (fireDate) => {
     createListForWeek()

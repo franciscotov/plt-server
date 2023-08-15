@@ -5,7 +5,6 @@ import {
   modelsKeys,
   commonsKeys,
   lengthValues,
-  relationKeys,
 } from "../../constants";
 import seqConnection from "../db/dbInit";
 
@@ -34,9 +33,10 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
 User.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
     },
     name: {
       type: DataTypes.STRING(lengthValues.name),

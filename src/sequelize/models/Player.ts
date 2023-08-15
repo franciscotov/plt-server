@@ -23,9 +23,10 @@ class Player
 Player.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
+      unique: true,
     },
     name: {
       type: DataTypes.STRING(lengthValues.name),

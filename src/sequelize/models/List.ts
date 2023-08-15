@@ -1,19 +1,18 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { modelsKeys, lengthValues } from "../../constants";
 import seqConnection from "../db/dbInit";
-import { GameAttributes, GameTypeValues } from "./interfaces/interfaces";
+import { GameTypeValues, ListAttributes } from "./interfaces/interfaces";
 
-export interface GameInput extends Optional<GameAttributes, "id"> {}
-export interface GameOuput extends Required<GameAttributes> {}
+export interface ListInput extends Optional<ListAttributes, "id"> {}
+export interface ListOuput extends Required<ListAttributes> {}
 
-class Game extends Model<GameAttributes, GameInput> implements GameAttributes {
+class List extends Model<ListAttributes, ListInput> implements ListAttributes {
   public id!: number;
   public name!: string;
   public totalPlayers!: number;
+  public playersQuantity!: number;
   public initHour!: number;
   public endHour!: number;
-  public campusId!: number;
-  public active!: boolean;
   // day: Day;
   // timestamps!
   public readonly createdAt!: Date;
@@ -21,13 +20,13 @@ class Game extends Model<GameAttributes, GameInput> implements GameAttributes {
   public readonly deletedAt!: Date;
 }
 
-Game.init(
+List.init(
   {
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
       unique: true,
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING(lengthValues.name),
@@ -46,6 +45,11 @@ Game.init(
       unique: false,
       allowNull: false,
     },
+    playersQuantity: {
+      type: DataTypes.INTEGER,
+      unique: false,
+      allowNull: false,
+    },
     initHour: {
       type: DataTypes.INTEGER,
       unique: false,
@@ -56,19 +60,13 @@ Game.init(
       unique: false,
       allowNull: false,
     },
-    active: {
-      type: DataTypes.BOOLEAN,
-      unique: false,
-      allowNull: false,
-      defaultValue: true,
-    },
   },
   {
     timestamps: true,
     sequelize: seqConnection,
     paranoid: true,
-    tableName: modelsKeys.game,
+    tableName: modelsKeys.list,
   }
 );
 
-export default Game;
+export default List;

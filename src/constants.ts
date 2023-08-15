@@ -6,6 +6,9 @@ export const modelsKeys = {
   days: "days",
   role: "roles",
   review: "reviews",
+  list: "list",
+  playerList: "player_list",
+  gameType: "gameType"
 };
 
 export const commonsKeys = {
@@ -16,10 +19,19 @@ export const commonsKeys = {
 };
 
 export const relationKeys = {
-  userPlayer: "user-player",
-  userRole: "user-role",
-  gameCampus: "game-campus",
-  gameDays: "value",
+  id: "id",
+  value: "value",
+};
+
+export const foreignKeys = {
+  userPlayer: "userId",
+  userRole: "roleId",
+  gameCampus: "campusId",
+  gameDays: "dayValue",
+  playerId: "playerId",
+  listPlayer: "listId",
+  listGame: "gameId",
+  // playerGame: "playerId",
 };
 
 export const lengthValues = {

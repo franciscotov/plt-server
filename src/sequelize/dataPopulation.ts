@@ -1,19 +1,17 @@
-import { Request, Response } from "express";
 import {
-  CampusAttributes,
-  Day,
+  Day as DayE,
   DaysAttributes,
-  GameAttributes,
+  GameTypeLabels,
+  GameTypeValues,
   RoleAttributes,
   UserAttributes,
-  UserBase,
 } from "./models/interfaces/interfaces";
-import { createUser } from "../services/userService";
-import { createDay } from "../services/daysService";
 import User from "./models/User";
 import { CampusInput } from "./models/Campus";
 import Role from "./models/Role";
-// import { Role, User } from "../db";
+import { GameInput } from "./models/Game";
+import GameType, { GameTypeInput } from "./models/GameType";
+import Day from "./models/Days";
 
 const dataPopulation = async () => {
   const role1: RoleAttributes = {
@@ -28,7 +26,7 @@ const dataPopulation = async () => {
   };
 
   const user: UserAttributes = {
-    // id: 1,
+    id: 1,
     name: "admin",
     lastname: "admin",
     password: "123456",
@@ -37,8 +35,17 @@ const dataPopulation = async () => {
     google: false,
   };
 
-  try {
+  const userTwo: UserAttributes = {
+    id: 2,
+    name: "adminTwo",
+    lastname: "adminTwo",
+    password: "123456",
+    email: "adminTwo@admin.com",
+    RoleId: role1.id,
+    google: false,
+  };
 
+  try {
     const [] = await Role.findOrCreate({
       where: { ...role1 },
       defaults: role1,
@@ -47,11 +54,10 @@ const dataPopulation = async () => {
       where: { ...role2 },
       defaults: role2,
     });
-  } catch(e) {
-    console.error(e)
+  } catch (e) {
+    console.error(e);
   }
-  // if (createdRole1) {
-  // User.create()
+
   try {
     const [, createdUser] = await User.findOrCreate({
       where: { ...user },
@@ -69,13 +75,30 @@ const dataPopulation = async () => {
     console.error("eorrr ", e);
   }
 
-  const game: GameAttributes = {
+  try {
+    const [, createdUser] = await User.findOrCreate({
+      where: { ...userTwo },
+      defaults: { ...userTwo },
+    });
+    if (!createdUser) {
+      await User.update(
+        { ...userTwo },
+        {
+          where: { id: userTwo.id },
+        }
+      );
+    }
+  } catch (e) {
+    console.error("eorrr ", e);
+  }
+
+  const game: GameInput = {
     name: "admin",
-    playersQuantity: 1,
+    totalPlayers: 1,
     initHour: 10,
     endHour: 11,
-    CampusId: 1,
-    DayValue: Day.Lunes,
+    campusId: 1,
+    dayValue: DayE.Lunes,
   };
 
   const campus: CampusInput = {
@@ -88,37 +111,64 @@ const dataPopulation = async () => {
   const daysToCreate: DaysAttributes[] = [
     {
       label: "Lunes",
-      value: Day.Lunes,
+      value: DayE.Lunes,
     },
     {
       label: "Martes",
-      value: Day.Martes,
+      value: DayE.Martes,
     },
     {
       label: "Miércoles",
-      value: Day.Miercoles,
+      value: DayE.Miercoles,
     },
     {
       label: "Jueves",
-      value: Day.Jueves,
+      value: DayE.Jueves,
     },
     {
       label: "Viernes",
-      value: Day.Viernes,
+      value: DayE.Viernes,
     },
     {
       label: "Sabado",
-      value: Day.Sabado,
+      value: DayE.Sabado,
     },
     {
       label: "Domingo",
-      value: Day.Domingo,
+      value: DayE.Domingo,
     },
   ];
 
-  daysToCreate.forEach(async (day: DaysAttributes) => {
-    await createDay(day);
-  });
+  const typesToCreate: GameTypeInput[] = [
+    {
+      label: GameTypeLabels.Five,
+      value: GameTypeValues.Five,
+    },
+    {
+      label: GameTypeLabels.Six,
+      value: GameTypeValues.Six,
+    },
+    {
+      label: GameTypeLabels.Seven,
+      value: GameTypeValues.Seven,
+    },
+    {
+      label: GameTypeLabels.Eight,
+      value: GameTypeValues.Eight,
+    },
+    {
+      label: GameTypeLabels.Nine,
+      value: GameTypeValues.Nine,
+    },
+    {
+      label: GameTypeLabels.Eleven,
+      value: GameTypeValues.Eleven,
+    },
+  ];
+
+  await Day.bulkCreate(daysToCreate);
+
+  await GameType.bulkCreate(typesToCreate);
 
   return true;
 };
