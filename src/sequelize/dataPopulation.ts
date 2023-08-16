@@ -31,7 +31,7 @@ const dataPopulation = async () => {
     lastname: "admin",
     password: "123456",
     email: "fran@admin.com",
-    RoleId: role1.id,
+    roleId: role1.id,
     google: false,
   };
 
@@ -41,7 +41,7 @@ const dataPopulation = async () => {
     lastname: "adminTwo",
     password: "123456",
     email: "adminTwo@admin.com",
-    RoleId: role1.id,
+    roleId: role1.id,
     google: false,
   };
 

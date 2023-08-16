@@ -9,7 +9,7 @@ export interface UserBase {
   google?: boolean;
   token?: string;
   role?: RoleAttributes;
-  RoleId?: number;
+  roleId?: number;
 }
 
 export interface UserAttributes extends UserBase {
