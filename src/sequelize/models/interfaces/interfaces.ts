@@ -50,7 +50,7 @@ export interface ListAttributes {
   playersQuantity: number;
   initHour: number;
   endHour: number;
-  active?: boolean;
+  active: boolean;
   gameId?: number;
 }
 

@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import { Model, where } from "sequelize";
 import {
   ReqHeader,
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces";
-// import { User, Role } from "../db";
 import { GoogleUser } from "../sequelize/models/types";
 import { getFirstName, getLastName } from "./utils";
 import User, { encryptPassword } from "../sequelize/models/User";
@@ -44,7 +42,7 @@ async function getUserById(id: number) {
 }
 
 async function createUser(user: UserBase) {
-  const { name, lastname, password, email, RoleId, google } = user;
+  const { name, lastname, password, email, roleId, google } = user;
   try {
     if (!google) {
       let [newUser, created] = await User.findOrCreate({
@@ -111,7 +109,7 @@ async function modifyUser(user: UserAttributes) {
     password,
     newPassword,
     email,
-    RoleId,
+    roleId,
     address,
     dni,
     phoneNumber,
@@ -147,7 +145,7 @@ async function modifyUser(user: UserAttributes) {
   if (!password && newPassword) obj.password = newPassword;
   if (name) obj.name = name;
   if (email) obj.email = email;
-  if (RoleId) obj.role = RoleId;
+  if (roleId) obj.role = roleId;
   if (address) obj.address = address;
   if (dni) obj.dni = dni;
   if (phoneNumber) obj.phoneNumber = phoneNumber;

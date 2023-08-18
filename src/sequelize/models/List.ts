@@ -13,6 +13,7 @@ class List extends Model<ListAttributes, ListInput> implements ListAttributes {
   public playersQuantity!: number;
   public initHour!: number;
   public endHour!: number;
+  public active!: boolean;
   // day: Day;
   // timestamps!
   public readonly createdAt!: Date;
@@ -59,6 +60,12 @@ List.init(
       type: DataTypes.INTEGER,
       unique: false,
       allowNull: false,
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      unique: false,
+      allowNull: false,
+      defaultValue: true,
     },
   },
   {

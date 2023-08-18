@@ -9,9 +9,10 @@ import {
 import User from "./models/User";
 import { CampusInput } from "./models/Campus";
 import Role from "./models/Role";
-import { GameInput } from "./models/Game";
+import Game, { GameInput } from "./models/Game";
 import GameType, { GameTypeInput } from "./models/GameType";
 import Day from "./models/Days";
+import List, { ListInput } from "./models/List";
 
 const dataPopulation = async () => {
   const role1: RoleAttributes = {
@@ -173,8 +174,24 @@ const dataPopulation = async () => {
   return true;
 };
 
-const createListForWeek = () => {
+const createListForWeek = async () => {
   // scripts para crear lista de juegos
+  const games = await Game.findAll({ where: { active: true } });
+  console.log(games, "games");
+  if (games && games.length > 0) {
+    games.forEach(async (game: Game, index: number) => {
+      const list: ListInput = {
+        totalPlayers: game.totalPlayers,
+        name: game.name,
+        initHour: game.initHour,
+        endHour: game.endHour,
+        playersQuantity: 0,
+        active: true,
+        gameId: game.id,
+      };
+      await List.create(list);
+    });
+  }
 };
 
 // await conn.query(`insert into "product-category" ("productId","categoryId") values (1,1)`)
