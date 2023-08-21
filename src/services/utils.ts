@@ -14,3 +14,5 @@ export const getLastName = (displayName: string) => {
     return names[names.length - 1];
   }
 };
+
+export const nameSeparator = ","

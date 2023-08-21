@@ -9,7 +9,7 @@ connectionDB.sync({ force: false }).then(async () => {
     console.log(fireDate, 'fireDate')
     createListForWeek()
   });
-  schedule.scheduleJob("59 59 23 * * *", (fireDate) => {
+  schedule.scheduleJob("59 59 19 * * *", (fireDate) => {
     // daily deactivation
     console.log('se ejecuta', fireDate)
     dailyDeactivation()

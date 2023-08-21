@@ -119,6 +119,7 @@ export interface ReqHeader extends IncomingHttpHeaders {
 export interface ReqQuery {
   offset: number;
   limit: number;
+  campusId?: number;
 }
 
 export enum Day {

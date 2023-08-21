@@ -3,7 +3,7 @@ import { modelsKeys, lengthValues } from "../../constants";
 import seqConnection from "../db/dbInit";
 import { GameAttributes, GameTypeValues } from "./interfaces/interfaces";
 
-export interface GameInput extends Optional<GameAttributes, "id"> {}
+export interface GameInput extends Optional<GameAttributes, "id" | "name"> {}
 export interface GameOuput extends Required<GameAttributes> {}
 
 class Game extends Model<GameAttributes, GameInput> implements GameAttributes {

@@ -1,13 +1,26 @@
 import { Request, Response } from "express";
-import Game from "../sequelize/models/Game";
+import Game, { GameInput } from "../sequelize/models/Game";
 import Campus from "../sequelize/models/Campus";
 import Day from "../sequelize/models/Days";
 import { ReqQuery } from "../sequelize/models/interfaces/interfaces";
+import GameType from "../sequelize/models/GameType";
+import { nameSeparator } from "./utils";
 
 async function createGame(req: Request, res: Response) {
   // ver si se pueden tomar los datos de error para mapear mejor
-  const { name, totalPlayers, initHour, endHour, campusId, dayValue } =
-    req.body;
+  const { totalPlayers, initHour, endHour, campusId, dayValue }: GameInput =
+    req.body as GameInput;
+  let name: string = "";
+  try {
+    const campus = await Campus.findByPk(campusId);
+    const labelPlayersType = await GameType.findByPk(totalPlayers);
+    const labelDayValue = await Day.findByPk(dayValue);
+    if (campus) {
+      name = `${labelPlayersType?.label}${nameSeparator} ${labelDayValue?.label}${nameSeparator} ${campus.name}`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
   try {
     let [newGame, created] = await Game.findOrCreate({
       where: { name, totalPlayers, initHour, endHour, campusId, dayValue },
