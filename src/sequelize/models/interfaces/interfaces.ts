@@ -75,7 +75,7 @@ export interface CampusAttributes {
 
 export interface DaysAttributes {
   id?: number;
-  value: string;
+  value: number;
   label: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -122,13 +122,13 @@ export interface ReqQuery {
 }
 
 export enum Day {
-  Lunes = "lunes",
-  Martes = "martes",
-  Miercoles = "miercoles",
-  Jueves = "jueves",
-  Viernes = "viernes",
-  Sabado = "sabado",
-  Domingo = "domingo",
+  Lunes = "1",
+  Martes = "2",
+  Miercoles = "3",
+  Jueves = "4",
+  Viernes = "5",
+  Sabado = "6",
+  Domingo = "7",
 }
 
 export enum GameTypeValues {

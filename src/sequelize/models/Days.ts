@@ -8,7 +8,7 @@ export interface DayOuput extends Required<DaysAttributes> {}
 
 class Day extends Model<DaysAttributes, DayInput> implements DaysAttributes {
   public id!: number;
-  public value!: string;
+  public value!: number;
   public label!: string;
   // timestamps!
   public readonly createdAt!: Date;
@@ -24,7 +24,7 @@ Day.init(
       unique: true,
     },
     value: {
-      type: DataTypes.STRING(lengthValues.valueDay),
+      type: DataTypes.INTEGER,
       unique: true,
       allowNull: false,
       primaryKey: true,

@@ -3,6 +3,7 @@ import {
   DaysAttributes,
   GameTypeLabels,
   GameTypeValues,
+  ListAttributes,
   RoleAttributes,
   UserAttributes,
 } from "./models/interfaces/interfaces";
@@ -13,6 +14,9 @@ import Game, { GameInput } from "./models/Game";
 import GameType, { GameTypeInput } from "./models/GameType";
 import Day from "./models/Days";
 import List, { ListInput } from "./models/List";
+import { Op, WhereOptions } from "sequelize";
+
+const fourDaysMilliseconds = 24 * 4 * 60 * 60 * 1000;
 
 const dataPopulation = async () => {
   const role1: RoleAttributes = {
@@ -99,7 +103,7 @@ const dataPopulation = async () => {
     initHour: 10,
     endHour: 11,
     campusId: 1,
-    dayValue: DayE.Lunes,
+    dayValue: Number(DayE.Lunes),
   };
 
   const campus: CampusInput = {
@@ -112,31 +116,31 @@ const dataPopulation = async () => {
   const daysToCreate: DaysAttributes[] = [
     {
       label: "Lunes",
-      value: DayE.Lunes,
+      value: Number(DayE.Lunes),
     },
     {
       label: "Martes",
-      value: DayE.Martes,
+      value: Number(DayE.Martes),
     },
     {
       label: "Miércoles",
-      value: DayE.Miercoles,
+      value: Number(DayE.Miercoles),
     },
     {
       label: "Jueves",
-      value: DayE.Jueves,
+      value: Number(DayE.Jueves),
     },
     {
       label: "Viernes",
-      value: DayE.Viernes,
+      value: Number(DayE.Viernes),
     },
     {
       label: "Sabado",
-      value: DayE.Sabado,
+      value: Number(DayE.Sabado),
     },
     {
       label: "Domingo",
-      value: DayE.Domingo,
+      value: Number(DayE.Domingo),
     },
   ];
 
@@ -167,9 +171,16 @@ const dataPopulation = async () => {
     },
   ];
 
-  await Day.bulkCreate(daysToCreate);
-
-  await GameType.bulkCreate(typesToCreate);
+  try {
+    await Day.bulkCreate(daysToCreate);
+  } catch (e) {
+    console.error(e);
+  }
+  try {
+    await GameType.bulkCreate(typesToCreate);
+  } catch (e) {
+    console.error(e);
+  }
 
   return true;
 };
@@ -179,7 +190,7 @@ const createListForWeek = async () => {
   const games = await Game.findAll({ where: { active: true } });
   console.log(games, "games");
   if (games && games.length > 0) {
-    games.forEach(async (game: Game, index: number) => {
+    games.forEach(async (game: Game) => {
       const list: ListInput = {
         totalPlayers: game.totalPlayers,
         name: game.name,
@@ -194,6 +205,49 @@ const createListForWeek = async () => {
   }
 };
 
+const dailyDeactivation = async () => {
+  // scripts para descativar listas diariamente
+  const date = new Date();
+  const today = date.getDay();
+  try {
+    // get games
+    const games = await Game.findAll({ where: { dayValue: today } });
+
+    if (games && games.length > 0) {
+      console.log("games");
+      const opQuery: WhereOptions<ListAttributes> = games.map(({ id }) => ({
+        gameId: id,
+      }));
+      const lists: List[] = await List.findAll({
+        where: { [Op.or]: opQuery, active: true },
+      });
+      console.log("lists");
+      lists.forEach((list: List) => {
+        if (today === 4 || today === 5 || today === 6 || today === 7) {
+          const dateList = new Date(list.createdAt);
+          const millSecList = dateList.getTime();
+          const actualMiliSec = date.getTime();
+          console.log(
+            millSecList,
+            "millSecList",
+            actualMiliSec,
+            "actualMiliSec",
+            dateList
+          );
+          // si es de alguno de estos dias la diferencia de tiempo de creacion debe ser mayor a 4 dias
+          if (actualMiliSec - millSecList > fourDaysMilliseconds) {
+            list.update({ active: false });
+          }
+        } else {
+          list.update({ active: false });
+        }
+      });
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // await conn.query(`insert into "product-category" ("productId","categoryId") values (1,1)`)
 
-export { dataPopulation, createListForWeek };
+export { dataPopulation, createListForWeek, dailyDeactivation };
