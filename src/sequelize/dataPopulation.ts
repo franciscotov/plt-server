@@ -6,14 +6,14 @@ import {
   ListAttributes,
   RoleAttributes,
   UserAttributes,
-} from "./models/interfaces/interfaces";
-import User from "./models/User";
-import { CampusInput } from "./models/Campus";
-import Role from "./models/Role";
-import Game, { GameInput } from "./models/Game";
-import GameType, { GameTypeInput } from "./models/GameType";
-import Day from "./models/Days";
-import List, { ListInput } from "./models/List";
+} from "./models/interfaces/interfaces.ts";
+import User from "./models/User.ts";
+import { CampusInput } from "./models/Campus.ts";
+import Role from "./models/Role.ts";
+import Game, { GameInput } from "./models/Game.ts";
+import GameType, { GameTypeInput } from "./models/GameType.ts";
+import Day from "./models/Days.ts";
+import List, { ListInput } from "./models/List.ts";
 import { Op, WhereOptions } from "sequelize";
 
 const fourDaysMilliseconds = 24 * 4 * 60 * 60 * 1000;
