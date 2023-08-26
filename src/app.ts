@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 const serverless = require("serverless-http");
 import cors from "cors";
-import routesRegister from "./sequelize/routes/routesRegister";
+import routesRegister from "./sequelize/routes/routesRegister.ts";
 
 const router = express.Router();
 const server = express();
