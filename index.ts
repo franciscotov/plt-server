@@ -5,7 +5,7 @@ import schedule from "node-schedule";
 
 connectionDB.sync({ force: false }).then(async () => {
   await dataPopulation();
-  schedule.scheduleJob("59 59 * * * 4", (fireDate) => {
+  schedule.scheduleJob("59 59 * * * 5", (fireDate) => {
     console.log(fireDate, 'fireDate')
     createListForWeek()
   });
