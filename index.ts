@@ -1,6 +1,6 @@
-import { server } from "./src/app.ts";
-import { connectionDB } from "./src/db.ts";
-import { createListForWeek, dailyDeactivation, dataPopulation } from "./src/sequelize/dataPopulation.ts";
+import { server } from "./src/app";
+import { connectionDB } from "./src/db";
+import { createListForWeek, dailyDeactivation, dataPopulation } from "./src/sequelize/dataPopulation";
 import schedule from "node-schedule";
 
 connectionDB.sync({ force: false }).then(async () => {
