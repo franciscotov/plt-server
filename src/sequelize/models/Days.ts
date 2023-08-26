@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { modelsKeys, lengthValues } from "../../constants";
-import seqConnection from "../db/dbInit";
-import { DaysAttributes } from "./interfaces/interfaces";
+import { modelsKeys, lengthValues } from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
+import { DaysAttributes } from "./interfaces/interfaces.ts";
 
 export interface DayInput extends Optional<DaysAttributes, "id"> {}
 export interface DayOuput extends Required<DaysAttributes> {}

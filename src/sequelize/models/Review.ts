@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { modelsKeys, lengthValues } from "../../constants";
-import seqConnection from "../db/dbInit";
-import { ReviewAttributes } from "./interfaces/interfaces";
+import { modelsKeys, lengthValues } from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
+import { ReviewAttributes } from "./interfaces/interfaces.ts";
 
 export interface ReviewInput extends Optional<ReviewAttributes, "id"> {}
 export interface ReviewOuput extends Required<ReviewAttributes> {}

@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { modelsKeys, lengthValues } from "../../constants";
-import seqConnection from "../db/dbInit";
-import { RoleAttributes } from "./interfaces/interfaces";
+import { modelsKeys, lengthValues } from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
+import { RoleAttributes } from "./interfaces/interfaces.ts";
 
 export interface RoleInput extends Optional<RoleAttributes, "id"> {}
 export interface RoleOuput extends Required<RoleAttributes> {}

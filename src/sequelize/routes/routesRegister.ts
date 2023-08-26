@@ -1,10 +1,10 @@
 import { Router } from "express";
-import userRouter from "./userRouter";
-import gameRouter from "./gameRouter";
-import campusRouter from "./campusRouter";
-import daysRouter from "./daysRouter";
-import gameTypeRouter from "./gameTypeRouter";
-import listRouter from "./listRouter";
+import userRouter from "./userRouter.ts";
+import gameRouter from "./gameRouter.ts";
+import campusRouter from "./campusRouter.ts";
+import daysRouter from "./daysRouter.ts";
+import gameTypeRouter from "./gameTypeRouter.ts";
+import listRouter from "./listRouter.ts";
 
 function routesRegister(router: Router) {
   router.use("/user", userRouter);

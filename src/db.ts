@@ -1,13 +1,13 @@
-import { foreignKeys, relationKeys } from "./constants";
-import connectionDB from "./sequelize/db/dbInit";
-import Campus from "./sequelize/models/Campus";
-import Day from "./sequelize/models/Days";
-import Game from "./sequelize/models/Game";
-import List from "./sequelize/models/List";
-import Player from "./sequelize/models/Player";
-import PlayerList from "./sequelize/models/Player_List";
-import Role from "./sequelize/models/Role";
-import User from "./sequelize/models/User";
+import { foreignKeys, relationKeys } from "./constants.ts";
+import connectionDB from "./sequelize/db/dbInit.ts";
+import Campus from "./sequelize/models/Campus.ts";
+import Day from "./sequelize/models/Days.ts";
+import Game from "./sequelize/models/Game.ts";
+import List from "./sequelize/models/List.ts";
+import Player from "./sequelize/models/Player.ts";
+import PlayerList from "./sequelize/models/Player_List.ts";
+import Role from "./sequelize/models/Role.ts";
+import User from "./sequelize/models/User.ts";
 
 const { userRole, userPlayer, gameCampus, gameDays, listGame, playerId, listPlayer } = foreignKeys;
 const { id, value } = relationKeys;

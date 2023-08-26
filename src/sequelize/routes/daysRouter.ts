@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getDays } from "../../services/daysService";
+import { getDays } from "../../services/daysService.ts";
 
 const daysRouter = Router();
 daysRouter.get("/list", getDays);

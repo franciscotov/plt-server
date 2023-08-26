@@ -1,12 +1,12 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import crypto from "crypto";
-import { UserAttributes } from "./interfaces/interfaces";
+import { UserAttributes } from "./interfaces/interfaces.ts";
 import {
   modelsKeys,
   commonsKeys,
   lengthValues,
-} from "../../constants";
-import seqConnection from "../db/dbInit";
+} from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
 
 export interface UserInput extends Optional<UserAttributes, "id"> {}
 export interface UserOuput extends Required<UserAttributes> {}

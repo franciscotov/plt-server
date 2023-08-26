@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { modelsKeys, lengthValues } from "../../constants";
-import seqConnection from "../db/dbInit";
-import { CampusAttributes } from "./interfaces/interfaces";
+import { modelsKeys, lengthValues } from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
+import { CampusAttributes } from "./interfaces/interfaces.ts";
 
 export interface CampusInput extends Optional<CampusAttributes, "id"> {}
 export interface CampusOuput extends Required<CampusAttributes> {}

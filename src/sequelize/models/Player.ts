@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { modelsKeys, lengthValues } from "../../constants";
-import seqConnection from "../db/dbInit";
-import { PlayerAttributes } from "./interfaces/interfaces";
+import { modelsKeys, lengthValues } from "../../constants.ts";
+import seqConnection from "../db/dbInit.ts";
+import { PlayerAttributes } from "./interfaces/interfaces.ts";
 
 export interface PlayerInput extends Optional<PlayerAttributes, "id"> {}
 export interface PlayerOuput extends Required<PlayerAttributes> {}
