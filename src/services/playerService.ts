@@ -1,5 +1,5 @@
-import Player, { PlayerInput } from "../sequelize/models/Player";
-import { UserAttributes } from "../sequelize/models/interfaces/interfaces";
+import Player, { PlayerInput } from "../sequelize/models/Player.ts";
+import { UserAttributes } from "../sequelize/models/interfaces/interfaces.ts";
 
 const createPlayer = async (user: UserAttributes): Promise<Player> => {
   const playerToCreate: PlayerInput = {

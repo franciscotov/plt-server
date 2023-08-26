@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { modelsKeys } from "../constants";
+import { modelsKeys } from "../constants.ts";
 import {
   DaysAttributes,
   ReqQuery,
-} from "../sequelize/models/interfaces/interfaces";
-import Day from "../sequelize/models/Days";
+} from "../sequelize/models/interfaces/interfaces.ts";
+import Day from "../sequelize/models/Days.ts";
 
 const createDay = async (day: DaysAttributes) => {
   const { label, value } = day;

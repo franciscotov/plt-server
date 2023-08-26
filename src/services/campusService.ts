@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { modelsKeys } from "../constants";
-import Campus from "../sequelize/models/Campus";
-import { ReqQuery } from "../sequelize/models/interfaces/interfaces";
+import { modelsKeys } from "../constants.ts";
+import Campus from "../sequelize/models/Campus.ts";
+import { ReqQuery } from "../sequelize/models/interfaces/interfaces.ts";
 
 const createCampus = async (req: Request, res: Response) => {
   const { name, address, lat, lng } = req.body;

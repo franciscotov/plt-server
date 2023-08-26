@@ -3,12 +3,12 @@ import {
   ReqHeader,
   UserAttributes,
   UserBase,
-} from "../sequelize/models/interfaces/interfaces";
+} from "../sequelize/models/interfaces/interfaces.ts";
 import { GoogleUser } from "../sequelize/models/types";
-import { getFirstName, getLastName } from "./utils";
-import User, { UserInput, encryptPassword } from "../sequelize/models/User";
-import Role from "../sequelize/models/Role";
-import { createPlayer } from "./playerService";
+import { getFirstName, getLastName } from "./utils.ts";
+import User, { UserInput, encryptPassword } from "../sequelize/models/User.ts";
+import Role from "../sequelize/models/Role.ts";
+import { createPlayer } from "./playerService.ts";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");

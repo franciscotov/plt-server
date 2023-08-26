@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import Game, { GameInput } from "../sequelize/models/Game";
-import Campus from "../sequelize/models/Campus";
-import Day from "../sequelize/models/Days";
-import { ReqQuery } from "../sequelize/models/interfaces/interfaces";
-import GameType from "../sequelize/models/GameType";
-import { nameSeparator } from "./utils";
+import Game, { GameInput } from "../sequelize/models/Game.ts";
+import Campus from "../sequelize/models/Campus.ts";
+import Day from "../sequelize/models/Days.ts";
+import { ReqQuery } from "../sequelize/models/interfaces/interfaces.ts";
+import GameType from "../sequelize/models/GameType.ts";
+import { nameSeparator } from "./utils.ts";
 
 async function createGame(req: Request, res: Response) {
   // ver si se pueden tomar los datos de error para mapear mejor

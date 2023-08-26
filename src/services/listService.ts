@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import Game from "../sequelize/models/Game";
-import Campus from "../sequelize/models/Campus";
-import Day from "../sequelize/models/Days";
+import Game from "../sequelize/models/Game.ts";
+import Campus from "../sequelize/models/Campus.ts";
+import Day from "../sequelize/models/Days.ts";
 import {
   ListAttributes,
   ReqQuery,
-} from "../sequelize/models/interfaces/interfaces";
-import List from "../sequelize/models/List";
+} from "../sequelize/models/interfaces/interfaces.ts";
+import List from "../sequelize/models/List.ts";
 import { Op, WhereOptions } from "sequelize";
 
 const getList = async (req: Request, res: Response) => {

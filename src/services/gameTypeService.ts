@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import {
   ReqQuery,
-} from "../sequelize/models/interfaces/interfaces";
-import GameType from "../sequelize/models/GameType";
+} from "../sequelize/models/interfaces/interfaces.ts";
+import GameType from "../sequelize/models/GameType.ts";
 
 const getGameTypes = async (req: Request, res: Response) => {
   const { offset, limit }: ReqQuery = req.query as unknown as ReqQuery;
