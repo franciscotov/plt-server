@@ -43,16 +43,16 @@ const getListByCampusId = async (req: Request, res: Response) => {
         const opQuery: WhereOptions<ListAttributes> = games.map(({ id }) => ({
           gameId: id,
         }));
-        const { count, rows } = await List.findAndCountAll({
+        const lists = await List.findAll({
           where: { [Op.or]: opQuery, active: true },
           offset: offsetNum,
           limit: Number(limit) || 1000,
-          include: [Day, Campus],
+          // include: [Day, Campus],
         });
-        return res.status(200).send({ count, rows });
+        return res.status(200).send(lists);
       }
     } catch (error) {
-      throw new Error("no se pudo encontrar el listado")
+      throw new Error("no se pudo encontrar el listado");
     }
   } catch (error) {
     return res.status(400).send({

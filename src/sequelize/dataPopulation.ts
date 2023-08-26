@@ -213,8 +213,8 @@ const dailyDeactivation = async () => {
     // get games
     const games = await Game.findAll({ where: { dayValue: today } });
 
+    console.log("games", games.length);
     if (games && games.length > 0) {
-      console.log("games");
       const opQuery: WhereOptions<ListAttributes> = games.map(({ id }) => ({
         gameId: id,
       }));

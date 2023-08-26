@@ -6,8 +6,9 @@ import {
 } from "../sequelize/models/interfaces/interfaces";
 import { GoogleUser } from "../sequelize/models/types";
 import { getFirstName, getLastName } from "./utils";
-import User, { encryptPassword } from "../sequelize/models/User";
+import User, { UserInput, encryptPassword } from "../sequelize/models/User";
 import Role from "../sequelize/models/Role";
+import { createPlayer } from "./playerService";
 
 const jwt = require("jsonwebtoken");
 // const { sendEmail } = require("./emailService");
@@ -52,7 +53,6 @@ async function createUser(user: UserBase) {
           lastname,
           password,
           email,
-          // roleId,
           google,
         },
       });
@@ -80,10 +80,6 @@ async function createUser(user: UserBase) {
           google,
         },
       });
-      // created true es por que lo creó, no existia
-      // siempre devuelve el usuario, pero el detalle va en función de
-      // si existia o no
-      //
       if (created)
         return {
           __typename: "user",
@@ -174,25 +170,38 @@ async function modifyUser(user: UserAttributes) {
 async function loginUserWithGoogle(req: Request, res: Response) {
   const googleUser: GoogleUser = req.body;
   const role = await Role.findOne({ where: { id: 2 } });
-  let user: UserBase;
-  const token = jwt.sign(
-    {
-      id: googleUser.email,
-      name: googleUser.displayName,
-    },
-    "secret",
-    { expiresIn: 60 * 60 }
-  );
-  user = {
+  const userToCreated: UserInput = {
+    email: googleUser.email || "",
     name: getFirstName(googleUser.displayName || ""),
     lastname: getLastName(googleUser.displayName || ""),
-    token,
-    password: "",
-    email: googleUser.email || "",
     google: true,
-    // role: { },
+    password: "1234",
+    roleId: role?.id,
   };
-  return res.status(200).send(user);
+  try {
+    const [newUser, created] = await User.findOrCreate({
+      where: { email: userToCreated.email },
+      defaults: { ...userToCreated },
+    });
+    if (created) {
+      const player = await createPlayer(newUser);
+      if (!player) {
+        throw new Error("Can't create the new player");
+      }
+    }
+    const token = jwt.sign(
+      {
+        id: userToCreated.email,
+        name: googleUser.displayName,
+      },
+      "secret",
+      { expiresIn: 60 * 60 }
+    );
+    userToCreated.token = token;
+    return res.status(200).send(userToCreated);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
 }
 
 async function resetPassword(id: number) {
@@ -267,7 +276,7 @@ async function loginUser(req: Request, res: Response) {
         name: user.name,
         email: user.email,
         token: token,
-        role: user.get('Role'),
+        role: user.get("Role"),
       });
     } else {
       return res.status(400).send({
@@ -278,6 +287,7 @@ async function loginUser(req: Request, res: Response) {
     }
   }
 }
+
 //------ DELETE USER ---------
 async function deleteUser(id: number) {
   try {

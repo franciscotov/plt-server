@@ -13,7 +13,7 @@ class Player
   public id!: number;
   public name!: string;
   public lastname!: string;
-  public type!: number;
+  // public userId!: number;
   // timestamps!
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -35,11 +35,6 @@ Player.init(
     },
     lastname: {
       type: DataTypes.STRING(lengthValues.lastName),
-      unique: false,
-      allowNull: false,
-    },
-    type: {
-      type: DataTypes.INTEGER,
       unique: false,
       allowNull: false,
     },

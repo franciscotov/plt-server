@@ -1,7 +1,7 @@
 import { IncomingHttpHeaders } from "http";
 
 export interface UserBase {
-  id?: number;
+  id: number;
   name: string;
   lastname: string;
   password: string;
@@ -95,7 +95,7 @@ export interface PlayerAttributes {
   id: number;
   name: string;
   lastname: string;
-  type: number;
+  // userId?: number,
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
