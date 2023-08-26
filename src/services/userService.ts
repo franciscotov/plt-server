@@ -4,7 +4,7 @@ import {
   UserAttributes,
   UserBase,
 } from "../sequelize/models/interfaces/interfaces.ts";
-import { GoogleUser } from "../sequelize/models/types";
+import { GoogleUser } from "../sequelize/models/types/index.ts";
 import { getFirstName, getLastName } from "./utils.ts";
 import User, { UserInput, encryptPassword } from "../sequelize/models/User.ts";
 import Role from "../sequelize/models/Role.ts";
