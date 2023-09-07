@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "netlify deploy --prod",
+    "build": "npm run clean && tsc",
     "start": " tsnd -r dotenv/config --respawn --clear index.ts dotenv_config_path=.env"
   },
   "repository": {
