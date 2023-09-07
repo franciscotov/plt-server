@@ -39,11 +39,12 @@ const getDays = async (req: Request, res: Response) => {
   try {
     const { count, rows } = await Day.findAndCountAll({
       where: {},
-      offset: offset,
-      limit: limit || 1000,
+      offset: Number(offset),
+      limit: Number(limit) || 1000,
     });
     return res.status(200).send({ count, rows });
   } catch (error) {
+    console.log(error, 'error')
     return res.status(400).send({
       __typename: "error",
       name: "error",

@@ -40,7 +40,7 @@ const getCampus = async (req: Request, res: Response) => {
     const { count, rows } = await Campus.findAndCountAll({
       where: {},
       offset: offsetNum,
-      limit: limit || 1000,
+      limit: Number(limit) || 1000,
     });
     return res.status(200).send({ count, rows });
   } catch (error) {
