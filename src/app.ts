@@ -24,9 +24,7 @@ router.get("/", (_req, res) => {
 });
 
 routesRegister(router);
-// server.use(router)
+server.use(router)
 
-server.use("/.netlify/functions/api", router);
-// module.exports.handler = serverless(server);
 
 export { server };
