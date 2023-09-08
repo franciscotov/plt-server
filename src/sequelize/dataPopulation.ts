@@ -223,7 +223,7 @@ const dailyDeactivation = async () => {
       });
       console.log("lists");
       lists.forEach((list: List) => {
-        if (today === 4 || today === 5 || today === 6 || today === 7) {
+        if (today === 4 || today === 3 || today === 6 || today === 7) {
           const dateList = new Date(list.createdAt);
           const millSecList = dateList.getTime();
           const actualMiliSec = date.getTime();

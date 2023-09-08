@@ -5,11 +5,10 @@ import schedule from "node-schedule";
 
 connectionDB.sync({ force: false }).then(async () => {
   await dataPopulation();
-  schedule.scheduleJob("59 59 * * * 5", (fireDate) => {
-    console.log(fireDate, 'fireDate')
+  schedule.scheduleJob("59 02 * * * 5", (fireDate) => {
     createListForWeek()
   });
-  schedule.scheduleJob("59 50 15 * * *", (fireDate) => {
+  schedule.scheduleJob("59 59 23 * * *", (fireDate) => {
     // daily deactivation
     console.log('se ejecuta', fireDate)
     dailyDeactivation()
