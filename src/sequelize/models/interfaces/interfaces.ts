@@ -1,4 +1,5 @@
 import { IncomingHttpHeaders } from "http";
+import { PlayerInput } from "../Player";
 
 export interface UserBase {
   id: number;
@@ -56,12 +57,8 @@ export interface ListAttributes {
 
 export interface PlayerListAttributes {
   id: number;
-  // name: string;
-  // playersQuantity: number;
-  // initHour: number;
-  // endHour: number;
-  // active?: boolean;
-  // gameId?: number;
+  listId?: number;
+  playerId?: number;
 }
 
 export interface CampusAttributes {
@@ -95,10 +92,14 @@ export interface PlayerAttributes {
   id: number;
   name: string;
   lastname: string;
-  // userId?: number,
+  userId?: number; 
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+}
+
+export interface PlayerWithUser extends PlayerInput {
+  userId: number
 }
 
 export interface ReviewAttributes {
@@ -120,6 +121,14 @@ export interface ReqQuery {
   offset: number;
   limit: number;
   campusId?: number;
+}
+
+export interface PlayerList {
+  listId: number;
+}
+
+export interface SignUpPlayerList extends PlayerList {
+  userEmail: string;
 }
 
 export enum Day {

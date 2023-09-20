@@ -5,6 +5,7 @@ import campusRouter from "./campusRouter.ts";
 import daysRouter from "./daysRouter.ts";
 import gameTypeRouter from "./gameTypeRouter.ts";
 import listRouter from "./listRouter.ts";
+import playerListRouter from "./playerListRouter.ts";
 
 function routesRegister(router: Router) {
   router.use("/user", userRouter);
@@ -12,6 +13,7 @@ function routesRegister(router: Router) {
   router.use("/campus", campusRouter);
   router.use("/days", daysRouter);
   router.use("/list", listRouter);
+  router.use("/player-list", playerListRouter);
   router.use("/game-type", gameTypeRouter);
 }
 
