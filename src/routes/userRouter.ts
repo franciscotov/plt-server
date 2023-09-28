@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser, loginUserWithGoogle } from "../../services/userService.ts";
+import { loginUser, loginUserWithGoogle } from "../services/userService.ts";
 
 const userRouter = Router();
 const email = "";

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createGame, getGames, updateGame } from "../../services/gameService.ts";
+import { createGame, getGames, updateGame } from "../services/gameService.ts";
 
 const gameRouter = Router();
 gameRouter.post("/create", createGame);

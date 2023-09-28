@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getList, getListByCampusId, updateList } from "../../services/listService.ts";
+import { getList, getListByCampusId, updateList } from "../services/listService.ts";
 
 const listRouter = Router();
 listRouter.get("/list", getList);

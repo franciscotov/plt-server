@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createCampus, getCampus, updateCampus } from "../../services/campusService.ts";
+import { createCampus, getCampus, updateCampus } from "../services/campusService.ts";
 
 const campusRouter = Router();
 campusRouter.post("/create", createCampus);
